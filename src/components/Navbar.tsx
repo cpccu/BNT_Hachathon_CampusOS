@@ -20,6 +20,8 @@ import {
   ChevronDown,
   UserCheck,
   Building,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -29,6 +31,23 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  React.useEffect(() => {
+    if (document.documentElement.classList.contains("dark")) {
+      setIsDark(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDark) {
+      document.documentElement.classList.remove("dark");
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      setIsDark(true);
+    }
+  };
 
   const navLinks = [
     {
@@ -169,6 +188,15 @@ export default function Navbar() {
                 </kbd>
               </div>
             </div>
+
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="relative p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-campus-500"
+              aria-label="Toggle Dark Mode"
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
 
             {/* Notifications Button */}
             <div className="relative">
