@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   GraduationCap,
   CalendarDays,
@@ -27,6 +27,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const { user, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,6 +35,13 @@ export default function Navbar() {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const handleSignOut = async () => {
+    setProfileDropdownOpen(false);
+    setMobileMenuOpen(false);
+    await signOut();
+    router.push("/login");
+  };
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
@@ -255,7 +263,7 @@ export default function Navbar() {
                     </div>
                     <div className="border-t border-slate-100 dark:border-slate-800 px-2 pt-1">
                       <button
-                        onClick={() => { setProfileDropdownOpen(false); signOut(); }}
+                        onClick={handleSignOut}
                         className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition-colors font-semibold"
                       >
                         <LogOut className="w-4 h-4" /><span>Sign Out of CampusOS</span>
@@ -337,7 +345,7 @@ export default function Navbar() {
                   <Link href="/resources" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-1.5 py-2.5 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300">
                     <Shield className="w-3.5 h-3.5 text-campus-600" /> SafeWalk
                   </Link>
-                  <button onClick={() => { setMobileMenuOpen(false); signOut(); }} className="flex items-center justify-center gap-1.5 py-2.5 bg-rose-50 dark:bg-rose-950/30 rounded-xl text-xs font-bold text-rose-600">
+                  <button onClick={handleSignOut} className="flex items-center justify-center gap-1.5 py-2.5 bg-rose-50 dark:bg-rose-950/30 rounded-xl text-xs font-bold text-rose-600">
                     <LogOut className="w-3.5 h-3.5" /> Sign Out
                   </button>
                 </div>

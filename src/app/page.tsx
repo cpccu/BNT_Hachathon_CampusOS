@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Sparkles,
   Calendar,
@@ -32,7 +33,8 @@ import ActionNotificationModal from "@/components/ActionNotificationModal";
 import { useAuth } from "@/context/AuthContext";
 
 export default function HomeDashboard() {
-  const { user } = useAuth();
+  const router = useRouter();
+  const { user, loading } = useAuth();
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     title: string;
@@ -44,8 +46,25 @@ export default function HomeDashboard() {
     message: "",
   });
 
-  const studentName = user?.fullName || CURRENT_STUDENT.name;
-  const studentId = user?.studentId || CURRENT_STUDENT.id;
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
+        <div className="w-10 h-10 border-4 border-campus-200 border-t-campus-600 rounded-full animate-spin" />
+        <p className="text-xs font-semibold tracking-wider uppercase text-slate-500">
+          {loading ? "Loading CampusOS..." : "Redirecting to Sign In..."}
+        </p>
+      </div>
+    );
+  }
+
+  const studentName = user.fullName || CURRENT_STUDENT.name;
+  const studentId = user.studentId || CURRENT_STUDENT.id;
   const studentDept = user?.department || "Computer Science";
   const studentBatch = user?.batch || CURRENT_STUDENT.year;
 

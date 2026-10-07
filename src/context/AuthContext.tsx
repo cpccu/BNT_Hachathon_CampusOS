@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   supabase,
   isSupabaseConfigured,
@@ -42,6 +43,7 @@ const DEFAULT_DEMO_STUDENT: StudentUser = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [user, setUser] = useState<StudentUser | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -85,16 +87,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.warn("Supabase auth check fallback:", err);
         }
       } else {
-        // Fallback demo mode: check localStorage or seed with default student
+        // Fallback demo mode: check localStorage or seed with default student if not logged out
         const saved = typeof window !== "undefined" ? localStorage.getItem(LOCAL_STORAGE_KEY) : null;
+        const isLoggedOut = typeof window !== "undefined" ? localStorage.getItem("campusos_logged_out") === "true" : false;
         if (saved) {
           try {
             setUser(JSON.parse(saved));
           } catch {
-            setUser(DEFAULT_DEMO_STUDENT);
+            setUser(null);
           }
+        } else if (isLoggedOut) {
+          setUser(null);
         } else {
           setUser(DEFAULT_DEMO_STUDENT);
+          if (typeof window !== "undefined") {
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_DEMO_STUDENT));
+          }
         }
       }
       setLoading(false);
@@ -177,6 +185,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
       setUser(newUser);
       if (typeof window !== "undefined") {
+        localStorage.removeItem("campusos_logged_out");
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser));
       }
       return { error: null };
@@ -190,6 +199,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         password,
       });
       if (error) return { error: error.message };
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("campusos_logged_out");
+      }
       return { error: null };
     } else {
       // Local demo mode authentication
@@ -204,6 +216,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
       setUser(demoUser);
       if (typeof window !== "undefined") {
+        localStorage.removeItem("campusos_logged_out");
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(demoUser));
       }
       return { error: null };
@@ -212,12 +225,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     if (isSupabaseConfigured) {
-      await supabase.auth.signOut();
+      try {
+        await supabase.auth.signOut();
+      } catch (err) {
+        console.warn("Supabase sign out error:", err);
+      }
     }
     setUser(null);
     if (typeof window !== "undefined") {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
+      localStorage.setItem("campusos_logged_out", "true");
     }
+    router.push("/login");
   };
 
   const quickDemoLogin = (role: "student" | "club_admin" = "student") => {
@@ -232,6 +251,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
     setUser(demoUser);
     if (typeof window !== "undefined") {
+      localStorage.removeItem("campusos_logged_out");
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(demoUser));
     }
   };
