@@ -55,53 +55,44 @@ export default function CampusAIChatbot() {
       { id: typingId, role: "ai", content: "", isTyping: true },
     ]);
 
-    setTimeout(() => {
-      setMessages((prev) => prev.filter((m) => m.id !== typingId));
-      
-      const query = userMsg.content.toLowerCase();
-      let aiResponse = "";
+    setTimeout(async () => {
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: userMsg.content,
+            history: messages.slice(-5) // Send last 5 messages for context
+          })
+        });
 
-      // Hackathon Mock AI Logic (City University Context)
-      if (query.includes("bus") || query.includes("shuttle")) {
-        aiResponse = "🚌 The next CityUni Shuttle (Route A) leaves the Main Campus in 12 minutes. The Route B shuttle to the Metro Station leaves in 25 minutes. Should I set an alarm for you?";
-      } else if (query.includes("cse 201") || query.includes("dsa")) {
-        aiResponse = "📚 CSE 201 (Data Structures & Algorithms) is a core course. I found the complete lecture slides and 3 past midterm papers in the Academic Vault! You can download them directly from the Resource Hub.";
-      } else if (query.includes("lost") || query.includes("id card") || query.includes("found")) {
-        aiResponse = "🔍 If you lost your ID card, you can check the Lost & Found Box at the Main Security Desk. 3 ID cards were turned in today. Would you like me to file a missing item report for you?";
-      } else if (query.includes("safewalk") || query.includes("escort") || query.includes("emergency")) {
-        aiResponse = "🛡️ SafeWalk is available 24/7! A campus security ranger can escort you anywhere on campus. The average wait time right now is 3 minutes. Should I dispatch a ranger to your location?";
-      } else if (query.includes("routine") || query.includes("batch") || query.includes("class") || query.includes("schedule")) {
-        const departments = ["cse", "dba", "textile", "mechanical", "english", "eee"];
-        const foundDept = departments.find(d => query.includes(d)) || "CSE";
+        const data = await res.json();
         
-        // Extract batch number (62-69)
-        const batchMatch = query.match(/\b(6[2-9])\b/);
-        const batch = batchMatch ? batchMatch[0] : "64"; // Default demo batch
-        
-        aiResponse = `📅 Here is the latest info for **${foundDept.toUpperCase()} Batch ${batch}**:
+        setMessages((prev) => prev.filter((m) => m.id !== typingId));
 
-• Today's next class is at 11:30 AM (Room 402 - ${foundDept.toUpperCase()} Core).
-• Your full weekly class routine was recently updated by the department coordinator.
+        if (data.error) {
+          throw new Error(data.error);
+        }
 
-Would you like me to download the official PDF routine for ${foundDept.toUpperCase()} Batch ${batch} from the Academic Vault?`;
-      } else if (query.includes("club") || query.includes("event") || query.includes("hackathon")) {
-        aiResponse = "🎉 The CPCCU Hackathon is happening soon! There are also 5 other events this week including the Sports Club Futsal Tournament. Check the Events feed to RSVP and get your QR ticket.";
-      } else {
-        aiResponse = "I'm still learning about that! As an AI assistant for City University, I'm best at helping you with academic resources, campus facilities, event RSVPs, and shuttle timings. Try asking me about 'CSE past papers' or 'bus schedule'!";
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now().toString(), role: "ai", content: data.reply },
+        ]);
+      } catch (error: any) {
+        setMessages((prev) => prev.filter((m) => m.id !== typingId));
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now().toString(), role: "ai", content: `⚠️ **AI System Error:** ${error.message}\n\n*Did you add your GEMINI_API_KEY to the .env.local file?*` },
+        ]);
       }
-
-      setMessages((prev) => [
-        ...prev,
-        { id: Date.now().toString(), role: "ai", content: aiResponse },
-      ]);
-    }, 1500); // 1.5s delay for realism
+    }, 500);
   };
 
   const quickPrompts = [
-    "When is the next bus?",
-    "Find CSE 201 past papers",
-    "I lost my ID card",
-    "Call SafeWalk",
+    "CSE 65 class routine?",
+    "What is a hackathon?",
+    "Next shuttle bus time?",
+    "CSE 201 past papers",
   ];
 
   const handleQuickPrompt = (prompt: string) => {
