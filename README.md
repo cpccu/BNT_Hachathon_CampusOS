@@ -100,8 +100,11 @@ City University's digital ecosystem was fragmented across 20+ unofficial Faceboo
 
 ---
 
-### 6. 🤖 Smart Helpdesk AI (Powered by Google Gemini 1.5 Flash)
-- **Floating Global Assistant:** Available across all pages via the sparkling bottom-right widget.
+### 6. 🤖 Smart Helpdesk & IT Support (`/helpdesk`)
+- **Full-Screen AI Chat Interface:** Dedicated page for resolving complex queries directly with the Google Gemini-powered assistant.
+- **Dynamic Ticketing System:** Submit detailed IT, infrastructure, or academic support tickets with priority tagging.
+- **Categorized Knowledge Base:** Instant access to frequently asked questions and quick-action prompts.
+- **Floating Global Assistant:** The AI remains available across all pages via the sparkling bottom-right widget.
 - **Real Google Gemini API Integration:** Backed by Next.js Server API routes (`/api/chat`) and authenticated with the production `GEMINI_API_KEY`.
 - **Pre-Trained University Knowledge Base:**
   - Complete daily class schedules for **CSE Batches 64, 65, 66**
