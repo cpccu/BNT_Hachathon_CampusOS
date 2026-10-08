@@ -47,7 +47,7 @@ export const PRESET_DEMO_ACCOUNTS: RegisteredUserRecord[] = [
     email: "student@cityuniversity.edu.bd",
     password: "demo1234",
     studentId: "CU-892401",
-    fullName: "Jordan Patel",
+    fullName: "Junaid Parvez",
     batch: "Batch 65 (Class of 2026)",
     department: "Computer Science & Engineering",
     role: "student",
@@ -58,7 +58,7 @@ export const PRESET_DEMO_ACCOUNTS: RegisteredUserRecord[] = [
     email: "jordan.patel@cityuni.edu",
     password: "demo1234",
     studentId: "CU-892401",
-    fullName: "Jordan Patel",
+    fullName: "Junaid Parvez",
     batch: "Batch 65 (Class of 2026)",
     department: "Computer Science & Engineering",
     role: "student",
@@ -69,7 +69,7 @@ export const PRESET_DEMO_ACCOUNTS: RegisteredUserRecord[] = [
     email: "admin@cpccu.edu.bd",
     password: "demo1234",
     studentId: "CU-301290",
-    fullName: "Alex Chen (CPCCU Lead)",
+    fullName: "Abir Chowdhury (CPCCU Lead)",
     batch: "Batch 63 (Class of 2025)",
     department: "Computer Science & Engineering",
     role: "club_admin",
@@ -104,15 +104,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const raw = localStorage.getItem(USER_DATABASE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        // Ensure preset demo accounts always exist
-        const emails = new Set(parsed.map((u: RegisteredUserRecord) => u.email.toLowerCase()));
-        const merged = [...parsed];
+        // Map existing accounts, overriding preset demo accounts with current metadata
+        const updated = parsed.map((u: RegisteredUserRecord) => {
+          const match = PRESET_DEMO_ACCOUNTS.find(
+            (p) => p.email.toLowerCase() === u.email.toLowerCase()
+          );
+          return match ? { ...u, ...match } : u;
+        });
+        const emails = new Set(updated.map((u: RegisteredUserRecord) => u.email.toLowerCase()));
         for (const preset of PRESET_DEMO_ACCOUNTS) {
           if (!emails.has(preset.email.toLowerCase())) {
-            merged.push(preset);
+            updated.push(preset);
           }
         }
-        return merged;
+        localStorage.setItem(USER_DATABASE_KEY, JSON.stringify(updated));
+        return updated;
       }
     } catch (e) {
       console.error("Failed to parse local user database", e);
@@ -173,7 +179,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (saved) {
           try {
-            setUser(JSON.parse(saved));
+            const parsed = JSON.parse(saved);
+            const presetMatch = PRESET_DEMO_ACCOUNTS.find(
+              (p) => p.email.toLowerCase() === parsed?.email?.toLowerCase()
+            );
+            if (presetMatch) {
+              const fresh = {
+                id: presetMatch.id,
+                email: presetMatch.email,
+                studentId: presetMatch.studentId,
+                fullName: presetMatch.fullName,
+                batch: presetMatch.batch,
+                department: presetMatch.department,
+                role: presetMatch.role,
+                avatarUrl: presetMatch.avatarUrl,
+              };
+              setUser(fresh);
+              localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fresh));
+            } else {
+              setUser(parsed);
+            }
           } catch {
             setUser(null);
           }
