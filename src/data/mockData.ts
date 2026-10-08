@@ -72,7 +72,8 @@ export interface TodayClass {
   time: string;
   room: string;
   instructor: string;
-  status: "Next Up" | "Later" | "Completed";
+  status: "Next Up" | "Later" | "Completed" | "Cancelled";
+  cancelReason?: string;
 }
 
 export const CURRENT_STUDENT: StudentProfile = {
@@ -108,6 +109,15 @@ export const TODAY_CLASSES: TodayClass[] = [
     room: "Science Complex 108",
     instructor: "Dr. Farhana Yasmin",
     status: "Later",
+  },
+  {
+    code: "CSE 315",
+    title: "Software Engineering & Architecture Lab",
+    time: "05:30 PM - 07:00 PM",
+    room: "Software Lab 4",
+    instructor: "Dr. Marium Lipi",
+    status: "Cancelled",
+    cancelReason: "Faculty attending CPCCU Hackathon Sprint",
   },
 ];
 

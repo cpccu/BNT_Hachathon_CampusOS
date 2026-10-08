@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  Sparkles, Calendar, Users, Compass, Clock, BookOpen, ArrowRight, Shield, Laptop, CheckCircle2, ChevronRight, AlertCircle, BellRing, Coffee, Navigation, Flame, Activity, Settings, HardDrive, Crown, MessageSquare, Plus, Edit
+  Sparkles, Calendar, Users, Compass, Clock, BookOpen, ArrowRight, Shield, Laptop, CheckCircle2, ChevronRight, AlertCircle, BellRing, Coffee, Navigation, Flame, Activity, Settings, HardDrive, Crown, MessageSquare, Plus, Edit, Ban, XCircle
 } from "lucide-react";
 import {
   CURRENT_STUDENT, TODAY_CLASSES, ANNOUNCEMENTS, MOCK_EVENTS, MOCK_RESOURCES
@@ -273,24 +273,81 @@ function StudentDashboard({ user, onAction }: { user: any, onAction: (a: string)
                 <div className="w-7 h-7 rounded-lg bg-campus-100 text-campus-700 flex items-center justify-center"><Clock className="w-4 h-4" /></div>
                 <div><h2 className="text-base font-bold text-slate-900">Today's Academic Schedule</h2><p className="text-xs text-slate-500">Wednesday, Fall Term Week 6</p></div>
               </div>
-              <span className="text-xs font-semibold text-campus-600 bg-campus-50 px-2.5 py-1 rounded-full border border-campus-200">3 Sessions</span>
+              <span className="text-xs font-semibold text-campus-600 bg-campus-50 px-2.5 py-1 rounded-full border border-campus-200">
+                {TODAY_CLASSES.length} Sessions (1 Cancelled)
+              </span>
             </div>
             <div className="space-y-3">
               {TODAY_CLASSES.map((cls) => (
-                <div key={cls.code} className={`p-4 rounded-xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${cls.status === "Next Up" ? "border-campus-400 bg-campus-50/50 shadow-xs ring-1 ring-campus-300/40" : cls.status === "Completed" ? "border-slate-100 bg-slate-50/60 opacity-75" : "border-slate-200 bg-white"}`}>
+                <div
+                  key={cls.code}
+                  className={`p-4 rounded-xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                    cls.status === "Cancelled"
+                      ? "border-rose-200 bg-rose-50/40 opacity-90"
+                      : cls.status === "Next Up"
+                      ? "border-campus-400 bg-campus-50/50 shadow-xs ring-1 ring-campus-300/40"
+                      : cls.status === "Completed"
+                      ? "border-slate-100 bg-slate-50/60 opacity-75"
+                      : "border-slate-200 bg-white"
+                  }`}
+                >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-campus-800 bg-campus-100/70 px-2 py-0.5 rounded">{cls.code}</span>
-                      <h3 className="text-sm font-bold text-slate-900">{cls.title}</h3>
+                      <span
+                        className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${
+                          cls.status === "Cancelled"
+                            ? "text-rose-800 bg-rose-100 line-through"
+                            : "text-campus-800 bg-campus-100/70"
+                        }`}
+                      >
+                        {cls.code}
+                      </span>
+                      <h3
+                        className={`text-sm font-bold ${
+                          cls.status === "Cancelled"
+                            ? "text-slate-600 line-through"
+                            : "text-slate-900"
+                        }`}
+                      >
+                        {cls.title}
+                      </h3>
                     </div>
                     <div className="text-xs text-slate-500 flex flex-wrap items-center gap-x-4 gap-y-1">
-                      <span className="flex items-center gap-1 font-medium"><Clock className="w-3.5 h-3.5" />{cls.time}</span>
-                      <span className="flex items-center gap-1"><Navigation className="w-3.5 h-3.5" />{cls.room}</span>
+                      <span className="flex items-center gap-1 font-medium">
+                        <Clock className="w-3.5 h-3.5" />
+                        {cls.time}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Navigation className="w-3.5 h-3.5" />
+                        {cls.room}
+                      </span>
                       <span>{cls.instructor}</span>
+                      {cls.cancelReason && (
+                        <span className="text-rose-600 font-semibold text-[11px] bg-rose-100/60 px-2 py-0.5 rounded">
+                          Notice: {cls.cancelReason}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div>
-                    {cls.status === "Next Up" ? <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-campus-600 text-white text-xs font-bold shadow-xs"><span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />Starts in 45m</span> : cls.status === "Completed" ? <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200 text-slate-600 text-xs font-medium"><CheckCircle2 className="w-3.5 h-3.5" />Completed</span> : <span className="text-xs text-slate-400 font-medium">Later today</span>}
+                    {cls.status === "Cancelled" ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200">
+                        <XCircle className="w-3.5 h-3.5 text-rose-600" />
+                        Cancelled
+                      </span>
+                    ) : cls.status === "Next Up" ? (
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-campus-600 text-white text-xs font-bold shadow-xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                        Starts in 45m
+                      </span>
+                    ) : cls.status === "Completed" ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200 text-slate-600 text-xs font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Completed
+                      </span>
+                    ) : (
+                      <span className="text-xs text-slate-400 font-medium">Later today</span>
+                    )}
                   </div>
                 </div>
               ))}
