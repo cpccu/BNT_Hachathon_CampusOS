@@ -103,28 +103,53 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Hackathon Project Info */}
+          {/* Column 4: Hackathon Project & Team Info */}
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-3">
-              Hackathon Project
+            <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-2">
+              Team: 404_Brain_Not_Found
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed mb-3">
-              Developed for the City University 24-Hour Hackathon with Next.js App Router, Tailwind CSS, and Lucide icons.
+            <p className="text-[11px] text-slate-400 mb-3">
+              CPCCU AI-Powered Web App Development Hackathon 2026
             </p>
-            <div className="text-xs text-slate-400">
-              <span className="block font-semibold text-slate-200">City University Tech Stack:</span>
-              <span className="text-[11px] font-mono text-campus-400">TypeScript • Tailwind • React 18</span>
+            <div className="space-y-2.5">
+              {/* Member 1: Maruf */}
+              <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                <img
+                  src="/maruf.jpg"
+                  alt="Md Shahadat Hossain Maruf"
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-campus-500/50 shrink-0"
+                />
+                <div className="min-w-0">
+                  <div className="text-xs font-bold text-white truncate">Md Shahadat Hossain Maruf</div>
+                  <div className="text-[10px] font-mono text-campus-400">ID: 0272310005101119</div>
+                </div>
+              </div>
+
+              {/* Member 2: Nazmul */}
+              <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                <img
+                  src="/najmul.jpg"
+                  alt="Nazmul Hasan"
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-campus-500/50 shrink-0"
+                />
+                <div className="min-w-0">
+                  <div className="text-xs font-bold text-white truncate">Nazmul Hasan</div>
+                  <div className="text-[10px] font-mono text-campus-400">ID: 0272310005101066</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom copyright */}
+        {/* Bottom copyright & Team attribution */}
         <div className="mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
-          <p>© {new Date().getFullYear()} City University • CampusOS System. All rights reserved.</p>
-          <div className="flex items-center space-x-4">
+          <p>
+            © {new Date().getFullYear()} City University • CampusOS System. Built with <Heart className="w-3.5 h-3.5 inline text-rose-500 mx-0.5 fill-rose-500" /> by <strong className="text-slate-300">404_Brain_Not_Found</strong>.
+          </p>
+          <div className="flex items-center space-x-4 text-[11px]">
             <span className="hover:text-slate-400 cursor-pointer">Student Honor Code</span>
             <span>•</span>
-            <span className="hover:text-slate-400 cursor-pointer">Privacy & Data Governance</span>
+            <span className="hover:text-slate-400 cursor-pointer">Privacy & Governance</span>
             <span>•</span>
             <span className="hover:text-slate-400 cursor-pointer">Accessibility</span>
           </div>

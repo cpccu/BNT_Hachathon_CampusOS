@@ -1,6 +1,9 @@
 # 🎬 CampusOS — 3-Minute Video Presentation Script
 ### *CPCCU AI-Powered Web App Development & Deployment Hackathon 2026*
-**Team Name:** BNT  
+**Team Name:** **404_Brain_Not_Found**  
+**Team Members:**  
+1. Md Shahadat Hossain Maruf (ID: 0272310005101119)  
+2. Nazmul Hasan (ID: 0272310005101066)  
 **Live Application URL:** https://campusos-cityuni.vercel.app  
 **Target Time:** 3 Minutes (180 Seconds)
 
@@ -23,7 +26,7 @@
 ### [0:00 - 0:30] — Introduction & Public Showcase
 > **[VISUAL: Open `https://campusos-cityuni.vercel.app` on browser showing the new University Showcase page]**
 >
-> *"Assalamu Alaikum and greetings honorable judges. We are Team BNT, and this is **CampusOS** — the unified digital campus operating system built specifically for City University.*
+> *"Assalamu Alaikum and greetings honorable judges. We are Team **404_Brain_Not_Found** — Md Shahadat Hossain Maruf and Nazmul Hasan — and this is **CampusOS**, the unified digital campus operating system built specifically for City University.*
 >
 > *Today, over 2,800 students at our Birulia campus face fragmented Facebook groups, scattered routine notices, and missed bus schedules. Before logging in, CampusOS greets visitors with our official university showcase, highlighting our 48+ student clubs, free transit routes, and platform modules. Let’s sign in with our 1-click student demo account."*
 

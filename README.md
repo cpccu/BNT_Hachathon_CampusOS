@@ -137,8 +137,17 @@ npm run build
 
 ## 👥 Hackathon Team
 
-**Team Name:** BNT  
+**Team Name:** **404_Brain_Not_Found**  
 **Hackathon:** CPCCU AI-Powered Web App Development & Deployment Hackathon 2026  
 **Institution:** City University, Dhaka, Bangladesh  
 
-*© 2026 City University • CampusOS System. Built for student empowerment and campus innovation.*
+### Team Members
+
+| Member | Student ID | Role / Contributions |
+|---|---|---|
+| **Md Shahadat Hossain Maruf** | `0272310005101119` | Lead Full-Stack Architect • Supabase Backend & Database Integration • AI Prompt Engineering |
+| **Nazmul Hasan** | `0272310005101066` | Frontend Specialist • UI/UX Architecture & Responsive Layouts • Mobile & Navigation Systems |
+
+---
+
+*© 2026 City University • CampusOS System. Built for student empowerment and campus innovation by Team 404_Brain_Not_Found.*
