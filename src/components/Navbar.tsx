@@ -24,6 +24,7 @@ import {
   Zap,
   MessageSquare,
   Crown,
+  Search,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -65,6 +66,7 @@ export default function Navbar() {
     { name: "Dashboard", href: "/", icon: LayoutDashboard, badge: null },
     { name: "Events", href: "/events", icon: CalendarDays, badge: "Live" },
     { name: "Resources", href: "/resources", icon: FolderKanban, badge: null },
+    { name: "Lost & Found", href: "/lost-and-found", icon: Search, badge: "New" },
     ...(user?.role === "admin"
       ? [{ name: "Admin Console", href: "/admin", icon: Crown, badge: "Admin" }]
       : []),

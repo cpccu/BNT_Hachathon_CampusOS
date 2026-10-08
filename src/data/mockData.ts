@@ -930,3 +930,104 @@ export const MOCK_ACADEMIC_RESOURCES: AcademicCourseResource[] = [
     verified: true,
   },
 ];
+
+export interface LostAndFoundItem {
+  id: string;
+  type: "Lost" | "Found";
+  itemName: string;
+  category: "Electronics" | "Accessories" | "Documents" | "Clothing" | "Other";
+  description: string;
+  location: string;
+  date: string;
+  contactInfo: string;
+  status: "Active" | "Resolved";
+  imageUrl?: string;
+  reporterName: string;
+}
+
+export interface Complaint {
+  id: string;
+  title: string;
+  category: "Infrastructure" | "Academic" | "Hostel" | "Cafeteria" | "Security" | "Other";
+  description: string;
+  location?: string;
+  date: string;
+  status: "Pending" | "In Progress" | "Resolved";
+  reporterName: string;
+  priority: "Low" | "Medium" | "High";
+}
+
+export const MOCK_LOST_AND_FOUND: LostAndFoundItem[] = [
+  {
+    id: "lf-1",
+    type: "Lost",
+    itemName: "Apple AirPods Pro",
+    category: "Electronics",
+    description: "Lost my AirPods Pro (white case with a small scratch on the back) somewhere near the Main Library.",
+    location: "Main Library, 2nd Floor",
+    date: "2024-10-07",
+    contactInfo: "jordan.p@cityuni.edu",
+    status: "Active",
+    reporterName: "Jordan Patel",
+  },
+  {
+    id: "lf-2",
+    type: "Found",
+    itemName: "Blue Hydro Flask",
+    category: "Accessories",
+    description: "Found a blue 32oz Hydro Flask with a 'GitHub' sticker on it.",
+    location: "CS Lab 401",
+    date: "2024-10-08",
+    contactInfo: "tanvir.a@cityuni.edu",
+    status: "Active",
+    reporterName: "Tanvir Ahmed",
+  },
+  {
+    id: "lf-3",
+    type: "Lost",
+    itemName: "Student ID Card",
+    category: "Documents",
+    description: "Lost my student ID card. Name: Sarah Jenkins. ID: CU-12345.",
+    location: "Cafeteria",
+    date: "2024-10-06",
+    contactInfo: "sarah.j@cityuni.edu",
+    status: "Resolved",
+    reporterName: "Sarah Jenkins",
+  }
+];
+
+export const MOCK_COMPLAINTS: Complaint[] = [
+  {
+    id: "comp-1",
+    title: "Broken AC in Turing Hall 304",
+    category: "Infrastructure",
+    description: "The air conditioning unit in Turing Hall 304 is making a loud noise and not cooling.",
+    location: "Turing Hall 304",
+    date: "2024-10-08",
+    status: "Pending",
+    reporterName: "Jordan Patel",
+    priority: "Medium",
+  },
+  {
+    id: "comp-2",
+    title: "Wi-Fi disconnecting in Library",
+    category: "Infrastructure",
+    description: "The 'CityUni-Secure' Wi-Fi network keeps dropping connection every 10 minutes on the 4th floor.",
+    location: "Main Library, 4th Floor",
+    date: "2024-10-07",
+    status: "In Progress",
+    reporterName: "Alex Chen",
+    priority: "High",
+  },
+  {
+    id: "comp-3",
+    title: "Unhealthy food options",
+    category: "Cafeteria",
+    description: "Need more vegan and healthy food options in the main cafeteria. The current menu is too limited.",
+    location: "Main Cafeteria",
+    date: "2024-10-05",
+    status: "Resolved",
+    reporterName: "Maya Lin",
+    priority: "Low",
+  }
+];

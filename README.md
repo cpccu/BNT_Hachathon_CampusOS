@@ -82,7 +82,15 @@ City University's digital ecosystem was fragmented across 20+ unofficial Faceboo
 
 ---
 
-### 4. 👑 Central Management & Admin Console (`/admin`)
+### 4. 🔍 Lost & Found / Complaint Box (`/lost-and-found`)
+- **Unified Campus Feed:** Report lost items, claim found items, and file facility complaints in a centralized hub.
+- **Categorization & Filtering:** Tag items by category (Electronics, Documents, etc.) and priority.
+- **Resolution Tracking:** Monitor the real-time status of complaints (Pending, In Progress, Resolved) and track claimed items.
+- **Secure Contact:** Safely connect with finders or reporters via integrated contact tools.
+
+---
+
+### 5. 👑 Central Management & Admin Console (`/admin`)
 - **Executive Overview & Real-Time Telemetry:** Live counters for active students (2,840), event RSVPs (1,420), study pod utilization (12/18 in use), and Slurm GPU cluster health.
 - **Event Moderation Suite:** Search, edit, toggle featured status, publish new university events, and remove outdated entries.
 - **Facility Reservation Roster:** Inspect all active study pod passes and GPU allocations, approve pending requests, or release booked pods.
@@ -92,7 +100,7 @@ City University's digital ecosystem was fragmented across 20+ unofficial Faceboo
 
 ---
 
-### 5. 🤖 Smart Helpdesk AI (Powered by Google Gemini 1.5 Flash)
+### 6. 🤖 Smart Helpdesk AI (Powered by Google Gemini 1.5 Flash)
 - **Floating Global Assistant:** Available across all pages via the sparkling bottom-right widget.
 - **Real Google Gemini API Integration:** Backed by Next.js Server API routes (`/api/chat`) and authenticated with the production `GEMINI_API_KEY`.
 - **Pre-Trained University Knowledge Base:**
