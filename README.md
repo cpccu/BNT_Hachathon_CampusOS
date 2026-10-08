@@ -57,12 +57,12 @@ City University's digital ecosystem was fragmented across 20+ unofficial Faceboo
 
 ## 🚀 Core Modules Built & Operational
 
-### 1. 📊 Home Dashboard & Student Operating System (`/`)
-- **Personalized Student Portal:** Displays the logged-in student's name, enrolled department, batch, and next immediate lecture room (e.g. *DS 420 at 2:00 PM in Innovation Pavilion B12*).
-- **Daily Academic Schedule:** Interactive timetable showing course codes, instructors, locations, and real-time status.
-- **Exam Countdown & Deadlines:** Visual progress tracker for upcoming project checkpoints and final exams.
-- **One-Click Quick Actions:** Instant dispatch for **SafeWalk 24/7 Security**, **Quiet Study Pod** reservation, and **Slurm GPU Compute** allocation with realistic confirmation reference codes.
-- **Role-Guarded Session:** Protects personal academic data and seamlessly redirects unauthenticated visitors to sign in.
+### 1. 📊 Role-Based Smart Dashboard (`/`)
+- **Dynamic Persona UIs:** The main dashboard automatically morphs based on your logged-in role (`student`, `club_admin`, `admin`).
+- **Student View:** Focuses on today's classes, study pod reservations, SafeWalk dispatch, and upcoming exams.
+- **Club Admin View:** Features a "Club Lead Portal" tracking club members, upcoming club events, and event management quick actions.
+- **Super Admin View:** Features a high-level system telemetry board, pending facility requests, live server uptime, and an Emergency Broadcast override tool.
+- **Role-Guarded Session:** Protects personal and administrative data, seamlessly redirecting unauthenticated visitors to sign in.
 
 ---
 
