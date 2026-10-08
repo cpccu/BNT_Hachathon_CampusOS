@@ -16,7 +16,6 @@ import {
   KeyRound,
   CheckCircle2,
   Copy,
-  Info,
 } from "lucide-react";
 import { useAuth, PRESET_DEMO_ACCOUNTS } from "@/context/AuthContext";
 
@@ -295,48 +294,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Judge Credentials Cheat Sheet */}
-          <div className="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 rounded-xl p-3.5 space-y-2">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-200">
-              <span className="flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5 text-campus-600" />
-                Demo Credentials Reference (Saved in README.md)
-              </span>
-            </div>
-            <div className="overflow-x-auto text-[11px]">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="text-slate-400 border-b border-slate-200 dark:border-slate-700">
-                    <th className="py-1 pr-2 font-medium">Role</th>
-                    <th className="py-1 px-2 font-medium">Email</th>
-                    <th className="py-1 px-2 font-medium">Password</th>
-                    <th className="py-1 pl-2 font-medium text-right">Access</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
-                  <tr>
-                    <td className="py-1.5 pr-2 font-semibold">Student</td>
-                    <td className="py-1.5 px-2 font-mono text-slate-800 dark:text-slate-100">student@cityuniversity.edu.bd</td>
-                    <td className="py-1.5 px-2 font-mono text-campus-600">demo1234</td>
-                    <td className="py-1.5 pl-2 text-right">Portal & RSVPs</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1.5 pr-2 font-semibold text-purple-600">Club Lead</td>
-                    <td className="py-1.5 px-2 font-mono text-slate-800 dark:text-slate-100">admin@cpccu.edu.bd</td>
-                    <td className="py-1.5 px-2 font-mono text-campus-600">demo1234</td>
-                    <td className="py-1.5 pl-2 text-right">Event Creator</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1.5 pr-2 font-semibold text-amber-600">Admin</td>
-                    <td className="py-1.5 px-2 font-mono text-slate-800 dark:text-slate-100">admin@cityuniversity.edu.bd</td>
-                    <td className="py-1.5 px-2 font-mono text-amber-600 font-bold">admin1234</td>
-                    <td className="py-1.5 pl-2 text-right">Admin Console</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
 
           <div className="pt-2 text-center border-t border-slate-100 dark:border-slate-800">
             <p className="text-xs text-slate-500">
