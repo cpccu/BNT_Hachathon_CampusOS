@@ -231,20 +231,43 @@ export default function ShuttleSchedulePage() {
 
         {/* Route Stoppages Timeline */}
         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-            <Navigation className="w-3.5 h-3.5 text-campus-600" />
-            <span>Designated Stoppages (Order of Transit)</span>
-          </h4>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Navigation className="w-3.5 h-3.5 text-campus-600" />
+              <span>Designated Stoppages (Order of Transit)</span>
+            </h4>
+            <span className="text-[11px] font-semibold text-campus-600 dark:text-campus-400">
+              {direction === "from_campus"
+                ? "Outbound: Campus → City Terminus"
+                : "Inbound: City Pickup → Main Campus"}
+            </span>
+          </div>
           <div className="flex flex-wrap items-center gap-2">
-            {selectedRoute.stops.map((stop, idx) => (
+            {(direction === "from_campus" ? selectedRoute.stops : [...selectedRoute.stops].reverse()).map((stop, idx, arr) => (
               <React.Fragment key={idx}>
                 <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-campus-50 dark:bg-campus-950/40 border border-campus-200 dark:border-campus-900/60 text-xs font-semibold text-slate-800 dark:text-slate-200">
-                  <span className="w-4 h-4 rounded-full bg-campus-600 text-white text-[10px] flex items-center justify-center font-bold">
+                  <span className={`w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-bold ${
+                    idx === 0 
+                      ? "bg-emerald-600 text-white" 
+                      : idx === arr.length - 1 
+                      ? "bg-rose-600 text-white" 
+                      : "bg-campus-600 text-white"
+                  }`}>
                     {idx + 1}
                   </span>
                   <span>{stop}</span>
+                  {idx === 0 && (
+                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                      Start
+                    </span>
+                  )}
+                  {idx === arr.length - 1 && (
+                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+                      Terminus
+                    </span>
+                  )}
                 </div>
-                {idx < selectedRoute.stops.length - 1 && (
+                {idx < arr.length - 1 && (
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 )}
               </React.Fragment>
