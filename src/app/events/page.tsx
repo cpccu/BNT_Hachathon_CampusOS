@@ -24,6 +24,7 @@ import ClubCard from "@/components/ClubCard";
 import QrTicketModal from "@/components/QrTicketModal";
 import CreateEventModal from "@/components/CreateEventModal";
 import ActionNotificationModal from "@/components/ActionNotificationModal";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 
 const STORAGE_EVENTS_KEY = "campusos_events_list_v2";
@@ -292,7 +293,8 @@ export default function EventsAndClubsPage() {
   const isClubAdmin = user?.role === "club_admin";
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <ProtectedRoute>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Page Header */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-campus-950 via-campus-900 to-indigo-950 text-white p-6 sm:p-8 shadow-xl border border-campus-800">
         
@@ -731,5 +733,6 @@ export default function EventsAndClubsPage() {
         referenceId={notificationModal.referenceId}
       />
     </div>
+    </ProtectedRoute>
   );
 }

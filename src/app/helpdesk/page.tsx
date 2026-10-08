@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Sparkles, Send, Bot, User, MessageSquare, Book, LifeBuoy, FileText, CheckCircle2, ChevronRight, PhoneCall, Mail } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface Message {
   id: string;
@@ -70,7 +71,8 @@ export default function HelpdeskPage() {
   const quickPrompts = ["Reset my password", "How to book a study pod?", "Library timings", "Contact IT support"];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <ProtectedRoute>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
       <div className="bg-gradient-to-r from-campus-900 to-indigo-950 rounded-3xl p-8 sm:p-10 text-white shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-campus-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -297,5 +299,6 @@ export default function HelpdeskPage() {
         </div>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

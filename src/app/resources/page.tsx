@@ -36,6 +36,7 @@ import {
 import ResourceCard from "@/components/ResourceCard";
 import AcademicResourceCard from "@/components/AcademicResourceCard";
 import ActionNotificationModal from "@/components/ActionNotificationModal";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 
 const STORAGE_KEY = "campusos_academic_resources_v3";
@@ -297,7 +298,8 @@ export default function ResourceHubPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <ProtectedRoute>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* ── HEADER BANNER ─────────────────────────────────────────────────── */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-campus-950 via-campus-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl border border-campus-800">
         <div className="absolute -right-16 -top-16 w-72 h-72 bg-campus-500/20 rounded-full blur-3xl pointer-events-none" />
@@ -897,5 +899,6 @@ export default function ResourceHubPage() {
         referenceId={modalState.referenceId}
       />
     </div>
+    </ProtectedRoute>
   );
 }

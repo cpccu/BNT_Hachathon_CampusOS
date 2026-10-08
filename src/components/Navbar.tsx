@@ -95,6 +95,58 @@ export default function Navbar() {
       : name.slice(0, 2).toUpperCase();
   };
 
+  const isAuthPage = pathname === "/login" || pathname === "/signup";
+
+  // Dedicated Professional Navbar for Auth Pages (Login & Signup)
+  if (isAuthPage) {
+    return (
+      <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          {/* Logo & Portal Identity */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-campus-600 to-campus-900 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+              <GraduationCap className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex flex-col -space-y-0.5">
+              <span className="text-[14px] sm:text-[15px] font-black tracking-tight text-slate-900 dark:text-white leading-none">
+                Campus<span className="text-campus-600">OS</span>
+                <span className="ml-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-campus-50 dark:bg-campus-950 text-campus-600 border border-campus-200 dark:border-campus-800">Auth Gateway</span>
+              </span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold tracking-wide">
+                City University of Bangladesh
+              </span>
+            </div>
+          </Link>
+
+          {/* Right Controls */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={toggleTheme}
+              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-all duration-200"
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDark ? <Sun className="w-4 h-4 sm:w-[18px] sm:h-[18px]" /> : <Moon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />}
+            </button>
+
+            <Link
+              href={pathname === "/login" ? "/signup" : "/login"}
+              className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all border border-slate-200 dark:border-slate-700"
+            >
+              {pathname === "/login" ? "Create Account" : "Sign In"}
+            </Link>
+
+            <Link
+              href="/"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-campus-600 dark:hover:text-campus-400 transition-colors"
+            >
+              ← Back to CampusOS
+            </Link>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${

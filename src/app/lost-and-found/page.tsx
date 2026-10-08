@@ -19,6 +19,7 @@ import {
 import { MOCK_LOST_AND_FOUND, MOCK_COMPLAINTS, LostAndFoundItem, Complaint } from "@/data/mockData";
 import { useAuth } from "@/context/AuthContext";
 import ActionNotificationModal from "@/components/ActionNotificationModal";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 type TabType = "lost" | "found" | "complaints";
 
@@ -123,7 +124,8 @@ export default function LostAndFoundPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <ProtectedRoute>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
         <div>
@@ -397,5 +399,6 @@ export default function LostAndFoundPage() {
         referenceId={notification.referenceId}
       />
     </div>
+    </ProtectedRoute>
   );
 }

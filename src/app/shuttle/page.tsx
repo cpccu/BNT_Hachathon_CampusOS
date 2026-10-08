@@ -17,6 +17,7 @@ import {
   Sparkles,
   Info
 } from "lucide-react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface BusRoute {
   id: string;
@@ -95,7 +96,8 @@ export default function ShuttleSchedulePage() {
   const [direction, setDirection] = useState<"from_campus" | "to_campus">("from_campus");
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <ProtectedRoute>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Banner */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-campus-950 to-indigo-950 text-white p-6 sm:p-8 shadow-xl border border-slate-800">
         <div className="absolute -right-16 -top-16 w-72 h-72 bg-campus-500/20 rounded-full blur-3xl pointer-events-none" />
@@ -320,5 +322,6 @@ export default function ShuttleSchedulePage() {
         </div>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }
