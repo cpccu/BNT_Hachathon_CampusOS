@@ -142,7 +142,7 @@ export default function LoginPage() {
                   <UserCheck className="w-3.5 h-3.5 text-campus-600" />
                   <span className="text-xs font-bold text-slate-900 dark:text-white">Student</span>
                 </div>
-                <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Jordan Patel</p>
+                <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Junaid Parvez</p>
                 <p className="text-[10px] text-slate-400 font-mono">CU-892401 • CSE</p>
               </div>
               <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1.5">
@@ -170,7 +170,7 @@ export default function LoginPage() {
                   <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
                   <span className="text-xs font-bold text-purple-900 dark:text-purple-300">Club Admin</span>
                 </div>
-                <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Alex Chen</p>
+                <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">Abir Chowdhury</p>
                 <p className="text-[10px] text-slate-400 font-mono">CPCCU Club Lead</p>
               </div>
               <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1.5">

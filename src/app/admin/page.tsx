@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { useAuth, RegisteredUserRecord } from "@/context/AuthContext";
 import { MOCK_EVENTS, MOCK_CLUBS, CampusEvent } from "@/data/mockData";
+import { LocalDB } from "@/lib/db";
 
 interface FacilityBooking {
   id: string;
@@ -63,8 +64,8 @@ export default function AdminDashboardPage() {
 
   const [activeTab, setActiveTab] = useState<"overview" | "events" | "facilities" | "students" | "alerts" | "ai">("overview");
 
-  // State for events management
-  const [eventsList, setEventsList] = useState<CampusEvent[]>(MOCK_EVENTS);
+  // State for events management — loaded from LocalDB (shared with student /events page)
+  const [eventsList, setEventsList] = useState<CampusEvent[]>([]);
   const [eventSearch, setEventSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -83,7 +84,7 @@ export default function AdminDashboardPage() {
 
   // State for facilities
   const [facilityBookings, setFacilityBookings] = useState<FacilityBooking[]>([
-    { id: "BK-901", facility: "Quiet Study Pod #4B", studentName: "Jordan Patel", studentId: "CU-892401", timeSlot: "2:00 PM - 4:00 PM", status: "Active", code: "POD-4B-9201" },
+    { id: "BK-901", facility: "Quiet Study Pod #4B", studentName: "Junaid Parvez", studentId: "CU-892401", timeSlot: "2:00 PM - 4:00 PM", status: "Active", code: "POD-4B-9201" },
     { id: "BK-902", facility: "Quiet Study Pod #2A", studentName: "Sarah Khan", studentId: "CU-891102", timeSlot: "1:00 PM - 3:00 PM", status: "Confirmed", code: "POD-2A-3310" },
     { id: "BK-903", facility: "NVIDIA A100 GPU Node #1", studentName: "Alex Rivera", studentId: "CU-772910", timeSlot: "All-Day Batch", status: "Active", code: "SLURM-GPU-01" },
     { id: "BK-904", facility: "Robotics Fabrication Lab", studentName: "Tanvir Ahmed", studentId: "CU-883901", timeSlot: "4:00 PM - 6:00 PM", status: "Pending", code: "ROBO-LAB-04" },
@@ -96,7 +97,7 @@ export default function AdminDashboardPage() {
 
   // State for announcements & alerts
   const [alerts, setAlerts] = useState<CampusAlert[]>([
-    { id: "ALT-1", title: "CityHack 2026 24-Hr Live Sprint", severity: "urgent", message: "Hackathon checkpoint #2 begins at 4:00 PM in Innovation Pavilion.", active: true, timestamp: "10 mins ago" },
+    { id: "ALT-1", title: "CPCCU Hackathon '26 24-Hr Live Sprint", severity: "urgent", message: "Hackathon checkpoint #2 begins at 4:00 PM in Innovation Pavilion.", active: true, timestamp: "10 mins ago" },
     { id: "ALT-2", title: "SafeWalk 24/7 Security Escort Operational", severity: "notice", message: "Campus security patrols active at all university dorm gates.", active: true, timestamp: "1 hr ago" },
     { id: "ALT-3", title: "Mid-Term Examination Schedule Released", severity: "notice", message: "Download departmental timetables from Academic Vault.", active: false, timestamp: "Yesterday" },
   ]);
@@ -116,6 +117,8 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     // Refresh user list from AuthContext
     setUsersList(getAllUsers());
+    // Load events from shared LocalDB so Admin & Student views stay in sync
+    LocalDB.getEvents().then((evts) => setEventsList(evts as CampusEvent[]));
   }, [getAllUsers]);
 
   // Check role authorization
@@ -141,7 +144,9 @@ export default function AdminDashboardPage() {
       rsvpd: false,
     };
 
-    setEventsList([created, ...eventsList]);
+    const newList = [created, ...eventsList];
+    setEventsList(newList);
+    LocalDB.addEvent(created); // persist to shared DB so /events page sees it
     setIsCreateEventOpen(false);
     setNewEvent({
       title: "",
@@ -157,14 +162,22 @@ export default function AdminDashboardPage() {
   };
 
   const handleDeleteEvent = (id: string, title: string) => {
-    setEventsList(eventsList.filter((e) => e.id !== id));
+    const updated = eventsList.filter((e) => e.id !== id);
+    setEventsList(updated);
+    // Sync deletion to shared LocalDB
+    if (typeof window !== "undefined") {
+      localStorage.setItem("campusos_events_list_v2", JSON.stringify(updated));
+    }
     showToast(`Event "${title}" was removed.`);
   };
 
   const handleToggleEventFeature = (id: string) => {
-    setEventsList(
-      eventsList.map((e) => (e.id === id ? { ...e, featured: !e.featured } : e))
-    );
+    const updated = eventsList.map((e) => (e.id === id ? { ...e, featured: !e.featured } : e));
+    setEventsList(updated);
+    // Sync to shared LocalDB
+    if (typeof window !== "undefined") {
+      localStorage.setItem("campusos_events_list_v2", JSON.stringify(updated));
+    }
     showToast("Event homepage highlight toggled.");
   };
 
@@ -414,11 +427,11 @@ export default function AdminDashboardPage() {
 
               <div className="divide-y divide-slate-100 dark:divide-slate-800 space-y-2">
                 {[
-                  { time: "2 mins ago", event: "Student RSVP confirmed for CityHack 2026", user: "Jordan Patel (CU-892401)", badge: "RSVP" },
+                  { time: "2 mins ago", event: "Student RSVP confirmed for CPCCU Hackathon '26", user: "Junaid Parvez (CU-892401)", badge: "RSVP" },
                   { time: "8 mins ago", event: "Quiet Study Pod #4B reservation generated QR code pass", user: "Tanvir Ahmed (CU-883901)", badge: "Booking" },
                   { time: "14 mins ago", event: "Smart Helpdesk AI answered CSE 65 routine inquiry", user: "Anonymous Student", badge: "AI Query" },
                   { time: "25 mins ago", event: "New student account registered with verified email", user: "Alex Rivera (CU-772910)", badge: "Sign Up" },
-                  { time: "42 mins ago", event: "Slurm cluster GPU job allocated: 1x NVIDIA A100", user: "Alex Chen (ACM)", badge: "HPC" },
+                  { time: "42 mins ago", event: "Slurm cluster GPU job allocated: 1x NVIDIA A100", user: "Abir Chowdhury (ACM)", badge: "HPC" },
                 ].map((item, idx) => (
                   <div key={idx} className="pt-2 flex items-start justify-between text-xs">
                     <div>

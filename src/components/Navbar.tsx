@@ -105,7 +105,7 @@ export default function Navbar() {
               <Zap className="w-2.5 h-2.5" /> Live Sprint
             </span>
             <span className="hidden sm:inline text-slate-200 text-[11px]">
-              CityHack 2026 — Innovation Pavilion & Great Hall
+              CPCCU Hackathon '26 — Innovation Pavilion & Great Hall
             </span>
           </div>
           <div className="flex items-center gap-4 text-[11px] text-slate-300">

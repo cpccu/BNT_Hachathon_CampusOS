@@ -29,8 +29,8 @@ CampusOS includes a complete **authentication and user directory system**. Evalu
 
 | Persona | Role | Email | Password | Campus ID | Permissions & Access |
 |---|---|---|---|---|---|
-| **Jordan Patel** | `student` | `student@cityuniversity.edu.bd` | `demo1234` | `CU-892401` | Full Student Dashboard, Event RSVPs, QR Entry Tickets, Study Pod Bookings, AI Helpdesk |
-| **Alex Chen** | `club_admin` | `admin@cpccu.edu.bd` | `demo1234` | `CU-301290` | CPCCU Club Lead, Event Creation, Attendee Lists, Resource Vault Contributions |
+| **Junaid Parvez** | `student` | `student@cityuniversity.edu.bd` | `demo1234` | `CU-892401` | Full Student Dashboard, Event RSVPs, QR Entry Tickets, Study Pod Bookings, AI Helpdesk |
+| **Abir Chowdhury** | `club_admin` | `admin@cpccu.edu.bd` | `demo1234` | `CU-301290` | CPCCU Club Lead, Event Creation, Attendee Lists, Resource Vault Contributions |
 | **Dr. Mahfuz Rahman** | `admin` | `admin@cityuniversity.edu.bd` | `admin1234` | `CU-ADMIN-001` | **Full Admin Console (`/admin`)**, User Role Management, Event Moderation, Pod Approvals, Broadcast Alerts |
 
 > 💡 **Custom Account Registration:**  

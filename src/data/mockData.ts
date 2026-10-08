@@ -76,7 +76,7 @@ export interface TodayClass {
 }
 
 export const CURRENT_STUDENT: StudentProfile = {
-  name: "Jordan Patel",
+  name: "Junaid Parvez",
   id: "CU-892401",
   program: "B.S. Computer Science & Data Systems",
   year: "Class of 2026 (Junior)",
@@ -90,7 +90,7 @@ export const TODAY_CLASSES: TodayClass[] = [
     title: "Distributed Systems & Cloud Architecture",
     time: "10:00 AM - 11:30 AM",
     room: "Turing Hall 304",
-    instructor: "Dr. Elena Vance",
+    instructor: "Dr. Nusrat Jahan",
     status: "Completed",
   },
   {
@@ -98,7 +98,7 @@ export const TODAY_CLASSES: TodayClass[] = [
     title: "Deep Learning Foundations & Ethics",
     time: "02:00 PM - 03:30 PM",
     room: "Innovation Pavilion B12",
-    instructor: "Prof. Marcus Thorne",
+    instructor: "Prof. Kamal Hossain",
     status: "Next Up",
   },
   {
@@ -106,7 +106,7 @@ export const TODAY_CLASSES: TodayClass[] = [
     title: "Applied Probability & Stochastic Modeling",
     time: "04:00 PM - 05:15 PM",
     room: "Science Complex 108",
-    instructor: "Dr. Rachel Kim",
+    instructor: "Dr. Farhana Yasmin",
     status: "Later",
   },
 ];
@@ -190,7 +190,7 @@ export const MOCK_CLUBS: StudentClub[] = [
     shortCode: "ACM Chapter",
     category: "Technology",
     membersCount: 480,
-    lead: "Alex Chen (President)",
+    lead: "Abir Chowdhury (President)",
     description: "The primary computer science association on campus hosting weekly algorithms nights, hackathons, and company tech talks.",
     verified: true,
     meetingTime: "Wednesdays @ 6:30 PM",
@@ -218,7 +218,7 @@ export const MOCK_CLUBS: StudentClub[] = [
     shortCode: "WiCS",
     category: "Technology",
     membersCount: 310,
-    lead: "Maya Lin (Director)",
+    lead: "Marium Lipi (Director)",
     description: "Empowering women and non-binary technologists through mentorship circles, Grace Hopper conference sponsorships, and leadership.",
     verified: true,
     meetingTime: "Bi-weekly Mondays @ 6:00 PM",
@@ -228,11 +228,11 @@ export const MOCK_CLUBS: StudentClub[] = [
   },
   {
     id: "club-4",
-    name: "City Financial Trading & Quant Club",
+    name: "CityUni Finance & Business Society",
     shortCode: "Quant Club",
     category: "Leadership",
     membersCount: 190,
-    lead: "David Goldstein (Lead)",
+    lead: "Zahid Hasan (Lead)",
     description: "Algorithmic trading competitions, market research analysis, and preparation for quantitative finance and hedge fund roles.",
     verified: true,
     meetingTime: "Thursdays @ 7:00 PM",
@@ -242,11 +242,11 @@ export const MOCK_CLUBS: StudentClub[] = [
   },
   {
     id: "club-5",
-    name: "Urban Photography & Media Collective",
+    name: "CityUni Photography Society",
     shortCode: "Media Collective",
     category: "Arts & Culture",
     membersCount: 145,
-    lead: "Camila Ruiz (Curator)",
+    lead: "Nadia Rahman (Curator)",
     description: "Street photography walks, darkroom film development workshops, and campus gallery curation.",
     verified: false,
     meetingTime: "Saturdays @ 2:00 PM",
@@ -356,7 +356,7 @@ export const MOCK_EVENTS: CampusEvent[] = [
   },
   {
     id: "evt-1",
-    title: "CityHack 2026: 24-Hour Annual Innovation Sprint",
+    title: "CPCCU Hackathon '26: 24-Hour Annual Innovation Sprint",
     organizer: "CityUni Developer Student Club & ACM",
     clubId: "club-1",
     category: "Hackathon",
@@ -390,7 +390,7 @@ export const MOCK_EVENTS: CampusEvent[] = [
   {
     id: "evt-3",
     title: "Founders Coffee & Startup Pitch Mixer",
-    organizer: "City Financial Trading & Quant Club",
+    organizer: "CityUni Finance & Business Society",
     clubId: "club-4",
     category: "Career",
     date: "Friday, Oct 10",
@@ -800,7 +800,7 @@ export const MOCK_ACADEMIC_RESOURCES: AcademicCourseResource[] = [
     course_code: "MTH 310",
     resource_type: "Lab Guide",
     file_url: "https://cityuni.edu/vault/mth310-psets.pdf",
-    uploaded_by: "Dr. Rachel Kim",
+    uploaded_by: "Dr. Farhana Yasmin",
     uploaded_at: "1 week ago",
     file_size: "1.2 MB",
     downloads: 189,
@@ -908,7 +908,7 @@ export const MOCK_ACADEMIC_RESOURCES: AcademicCourseResource[] = [
     course_code: "DS 420",
     resource_type: "Lecture Notes",
     file_url: "https://cityuni.edu/vault/ds420-notes.pdf",
-    uploaded_by: "Jordan Patel (Class Rep)",
+    uploaded_by: "Junaid Parvez (Class Rep)",
     uploaded_at: "3 days ago",
     file_size: "8.1 MB",
     downloads: 215,
@@ -968,7 +968,7 @@ export const MOCK_LOST_AND_FOUND: LostAndFoundItem[] = [
     date: "2024-10-07",
     contactInfo: "jordan.p@cityuni.edu",
     status: "Active",
-    reporterName: "Jordan Patel",
+    reporterName: "Junaid Parvez",
   },
   {
     id: "lf-2",
@@ -1005,7 +1005,7 @@ export const MOCK_COMPLAINTS: Complaint[] = [
     location: "Turing Hall 304",
     date: "2024-10-08",
     status: "Pending",
-    reporterName: "Jordan Patel",
+    reporterName: "Junaid Parvez",
     priority: "Medium",
   },
   {
@@ -1016,7 +1016,7 @@ export const MOCK_COMPLAINTS: Complaint[] = [
     location: "Main Library, 4th Floor",
     date: "2024-10-07",
     status: "In Progress",
-    reporterName: "Alex Chen",
+    reporterName: "Abir Chowdhury",
     priority: "High",
   },
   {
@@ -1027,7 +1027,7 @@ export const MOCK_COMPLAINTS: Complaint[] = [
     location: "Main Cafeteria",
     date: "2024-10-05",
     status: "Resolved",
-    reporterName: "Maya Lin",
+    reporterName: "Marium Lipi",
     priority: "Low",
   }
 ];

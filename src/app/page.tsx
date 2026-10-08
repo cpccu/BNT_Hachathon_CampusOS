@@ -110,7 +110,7 @@ function AdminDashboard({ user, onAction }: { user: any, onAction: (a: string) =
             <Activity className="w-5 h-5 text-campus-600" /> Recent System Activity
           </h2>
           <div className="divide-y divide-slate-100">
-            {['Student "Jordan Patel" booked Study Pod 4B', 'Club "CPCCU" submitted an event for approval', 'Helpdesk ticket #1042 resolved by IT'].map((act, i) => (
+            {['Student "Junaid Parvez" booked Study Pod 4B', 'Club "CPCCU" submitted an event for approval', 'Helpdesk ticket #1042 resolved by IT'].map((act, i) => (
               <div key={i} className="py-3 text-sm text-slate-700 flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></div> {act}
               </div>
@@ -233,7 +233,7 @@ function StudentDashboard({ user, onAction }: { user: any, onAction: (a: string)
             <Link href="/events" className="group flex items-center justify-between gap-4 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition-all text-xs">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 flex items-center justify-center"><Flame className="w-5 h-5 text-gold-400" /></div>
-                <div><div className="font-bold text-white group-hover:text-gold-300">CityHack 2026 Live</div><div className="text-[11px] text-slate-300">24-Hr Sprint Underway</div></div>
+                <div><div className="font-bold text-white group-hover:text-gold-300">CPCCU Hackathon '26 Live</div><div className="text-[11px] text-slate-300">24-Hr Sprint Underway</div></div>
               </div>
               <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
             </Link>

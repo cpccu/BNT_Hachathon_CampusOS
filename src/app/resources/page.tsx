@@ -252,7 +252,7 @@ export default function ResourceHubPage() {
       course_code: uploadForm.course_code.toUpperCase().trim(),
       resource_type: uploadForm.resource_type,
       file_url: uploadForm.file_url.trim(),
-      uploaded_by: user?.fullName || "Jordan Patel",
+      uploaded_by: user?.fullName || "Junaid Parvez",
       uploaded_at: "Just now",
       file_size: "~",
       downloads: 0,
