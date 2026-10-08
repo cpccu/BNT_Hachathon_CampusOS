@@ -16,6 +16,7 @@ import {
 
 interface ClubCardProps {
   club: StudentClub;
+  userRole?: string;
   onJoinToggle?: (id: string, joined: boolean) => void;
   onViewEvents?: (clubId: string) => void;
   onCreateEvent?: (clubId: string) => void;
@@ -23,6 +24,7 @@ interface ClubCardProps {
 
 export default function ClubCard({
   club,
+  userRole,
   onJoinToggle,
   onViewEvents,
   onCreateEvent,
@@ -145,7 +147,7 @@ export default function ClubCard({
           </a>
         </div>
 
-        {onCreateEvent && (
+        {onCreateEvent && (userRole === "club_admin" || userRole === "admin") && (
           <button
             onClick={() => onCreateEvent(club.id)}
             className="w-full py-1.5 px-2 rounded-lg text-[11px] font-medium text-slate-500 hover:text-campus-700 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"

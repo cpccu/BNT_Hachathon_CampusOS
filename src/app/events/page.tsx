@@ -164,6 +164,14 @@ export default function EventsAndClubsPage() {
 
   // Club admin create event handler
   const handleCreateNewEvent = (newEvent: CampusEvent) => {
+    if (user?.role !== "club_admin" && user?.role !== "admin") {
+      setNotificationModal({
+        isOpen: true,
+        title: "Access Restricted",
+        message: "Only certified Club Executives and Campus Administrators have permission to publish new campus events.",
+      });
+      return;
+    }
     const updated = [newEvent, ...events];
     saveEvents(updated);
 
@@ -208,6 +216,14 @@ export default function EventsAndClubsPage() {
   };
 
   const handleOpenCreateForClub = (clubId: string) => {
+    if (user?.role !== "club_admin" && user?.role !== "admin") {
+      setNotificationModal({
+        isOpen: true,
+        title: "Access Restricted",
+        message: "Only certified Club Executives and Campus Administrators can create events.",
+      });
+      return;
+    }
     setPreselectedClubForCreate(clubId);
     setCreateModalOpen(true);
   };
@@ -323,16 +339,18 @@ export default function EventsAndClubsPage() {
 
           {/* Action CTAs */}
           <div className="flex flex-wrap sm:flex-nowrap gap-3">
-            <button
-              onClick={() => {
-                setPreselectedClubForCreate(undefined);
-                setCreateModalOpen(true);
-              }}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-gold-400 hover:bg-gold-300 text-slate-950 font-bold text-xs shadow-lg shadow-gold-500/20 transition-all active:scale-95"
-            >
-              <PlusCircle className="w-4 h-4" />
-              <span>Create Event (Club Admin)</span>
-            </button>
+            {(user?.role === "club_admin" || user?.role === "admin") && (
+              <button
+                onClick={() => {
+                  setPreselectedClubForCreate(undefined);
+                  setCreateModalOpen(true);
+                }}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-gold-400 hover:bg-gold-300 text-slate-950 font-bold text-xs shadow-lg shadow-gold-500/20 transition-all active:scale-95"
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span>Create Event ({user.role === "admin" ? "Admin" : "Club Lead"})</span>
+              </button>
+            )}
 
             <button
               onClick={() => {
@@ -636,16 +654,18 @@ export default function EventsAndClubsPage() {
               </p>
             </div>
 
-            <button
-              onClick={() => {
-                setPreselectedClubForCreate(undefined);
-                setCreateModalOpen(true);
-              }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-campus-600 hover:bg-campus-700 text-white font-bold text-xs shadow-xs transition-colors self-start sm:self-auto"
-            >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span>Register New Event for a Club</span>
-            </button>
+            {(user?.role === "club_admin" || user?.role === "admin") && (
+              <button
+                onClick={() => {
+                  setPreselectedClubForCreate(undefined);
+                  setCreateModalOpen(true);
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-campus-600 hover:bg-campus-700 text-white font-bold text-xs shadow-xs transition-colors self-start sm:self-auto"
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span>Register New Event for a Club</span>
+              </button>
+            )}
           </div>
 
           {filteredClubs.length === 0 ? (
@@ -668,6 +688,7 @@ export default function EventsAndClubsPage() {
                 <ClubCard
                   key={club.id}
                   club={club}
+                  userRole={user?.role}
                   onJoinToggle={handleClubJoinToggle}
                   onViewEvents={handleFilterByClub}
                   onCreateEvent={handleOpenCreateForClub}
