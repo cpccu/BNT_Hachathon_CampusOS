@@ -40,8 +40,12 @@ export const LocalDB: DatabaseProvider = {
           .select("*")
           .eq("type", "Lost")
           .order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) {
-          return data.map(normalizeLostFound);
+        if (!error && data) {
+          const normalized = data.map(normalizeLostFound);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("db_lost_items", JSON.stringify(normalized));
+          }
+          return normalized;
         }
       } catch (err) {
         console.warn("Supabase getLostItems fallback to local:", err);
@@ -64,8 +68,12 @@ export const LocalDB: DatabaseProvider = {
           .select("*")
           .eq("type", "Found")
           .order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) {
-          return data.map(normalizeLostFound);
+        if (!error && data) {
+          const normalized = data.map(normalizeLostFound);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("db_found_items", JSON.stringify(normalized));
+          }
+          return normalized;
         }
       } catch (err) {
         console.warn("Supabase getFoundItems fallback to local:", err);
@@ -148,7 +156,7 @@ export const LocalDB: DatabaseProvider = {
           category: normalized.category,
           location: normalized.location,
           date: normalized.date,
-          status: normalized.status,
+          status: "Open",
           type: "Lost",
           contact: normalized.contactInfo,
           description: normalized.description,
@@ -176,7 +184,7 @@ export const LocalDB: DatabaseProvider = {
           category: normalized.category,
           location: normalized.location,
           date: normalized.date,
-          status: normalized.status,
+          status: "Open",
           type: "Found",
           contact: normalized.contactInfo,
           description: normalized.description,

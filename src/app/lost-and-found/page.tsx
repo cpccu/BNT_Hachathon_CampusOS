@@ -82,12 +82,20 @@ export default function LostAndFoundPage() {
         reporterName: reporterName,
       };
       if (activeTab === "lost") {
-        setLostItems([newItem, ...lostItems]);
-        import("@/lib/db").then(({ LocalDB }) => LocalDB.addLostItem(newItem));
+        setLostItems(prev => [newItem, ...prev]);
+        import("@/lib/db").then(async ({ LocalDB }) => {
+          await LocalDB.addLostItem(newItem);
+          const fresh = await LocalDB.getLostItems();
+          setLostItems(fresh);
+        });
       }
       if (activeTab === "found") {
-        setFoundItems([newItem, ...foundItems]);
-        import("@/lib/db").then(({ LocalDB }) => LocalDB.addFoundItem(newItem));
+        setFoundItems(prev => [newItem, ...prev]);
+        import("@/lib/db").then(async ({ LocalDB }) => {
+          await LocalDB.addFoundItem(newItem);
+          const fresh = await LocalDB.getFoundItems();
+          setFoundItems(fresh);
+        });
       }
     } else {
       const newComplaint: Complaint = {
