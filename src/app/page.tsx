@@ -228,12 +228,56 @@ function StudentDashboard({ user, onAction }: { user: any, onAction: (a: string)
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ID: {studentId}
               </span>
             </div>
+
+            {/* High-Tech Live Status Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+              {/* Class Appearing Soon Alert */}
+              <div className="flex items-start gap-3 p-3 rounded-2xl bg-amber-500/15 border border-amber-400/30 backdrop-blur-md">
+                <div className="w-8 h-8 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center shrink-0 mt-0.5 animate-pulse">
+                  <Clock className="w-4 h-4" />
+                </div>
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.2 bg-amber-400/20 text-amber-300 rounded">
+                      Appearing Soon
+                    </span>
+                    <span className="text-[11px] text-amber-200 font-mono">In 20m</span>
+                  </div>
+                  <div className="text-xs font-bold text-white">DS 420: Deep Learning</div>
+                  <div className="text-[11px] text-slate-300">Room B12 · Prof. Kamal Hossain</div>
+                </div>
+              </div>
+
+              {/* Class Cancelled Notice */}
+              <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-500/15 border border-rose-400/30 backdrop-blur-md">
+                <div className="w-8 h-8 rounded-xl bg-rose-400/20 text-rose-300 flex items-center justify-center shrink-0 mt-0.5">
+                  <XCircle className="w-4 h-4" />
+                </div>
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.2 bg-rose-400/20 text-rose-300 rounded">
+                      Notice: Cancelled
+                    </span>
+                    <span className="text-[11px] text-rose-200 font-mono">Today 5:30 PM</span>
+                  </div>
+                  <div className="text-xs font-bold text-white line-through opacity-90">CSE 315: Architecture Lab</div>
+                  <div className="text-[11px] text-rose-200">Faculty at Hackathon Sprint</div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
             <Link href="/events" className="group flex items-center justify-between gap-4 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition-all text-xs">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 flex items-center justify-center"><Flame className="w-5 h-5 text-gold-400" /></div>
                 <div><div className="font-bold text-white group-hover:text-gold-300">CPCCU Hackathon '26 Live</div><div className="text-[11px] text-slate-300">24-Hr Sprint Underway</div></div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link href="/shuttle" className="group flex items-center justify-between gap-4 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 transition-all text-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center"><Navigation className="w-5 h-5 text-blue-300" /></div>
+                <div><div className="font-bold text-white group-hover:text-blue-300">Mirpur Express Shuttle</div><div className="text-[11px] text-slate-300">Gate 1 • Departs in 14m</div></div>
               </div>
               <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -267,7 +311,7 @@ function StudentDashboard({ user, onAction }: { user: any, onAction: (a: string)
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs">
+          <div id="schedule" className="bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs scroll-mt-24">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-lg bg-campus-100 text-campus-700 flex items-center justify-center"><Clock className="w-4 h-4" /></div>

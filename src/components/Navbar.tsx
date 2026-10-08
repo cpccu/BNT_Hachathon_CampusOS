@@ -27,8 +27,12 @@ import {
   Search,
   LifeBuoy,
   Bus,
+  Clock,
+  AlertTriangle,
+  CheckCircle2,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import CommandPalette from "@/components/CommandPalette";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -178,6 +182,9 @@ export default function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2">
 
+            {/* Command Palette Search Trigger */}
+            <CommandPalette />
+
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleTheme}
@@ -200,26 +207,84 @@ export default function Navbar() {
               </button>
 
               {notificationsOpen && (
-                <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                  <div className="px-4 pb-2 pt-1 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">Campus Alerts</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 bg-rose-100 text-rose-600 rounded-full">3 new</span>
+                <div className="absolute right-0 top-full mt-2 w-84 sm:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="px-4 pb-2.5 pt-1.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                      Live Academic & Campus Alerts
+                    </span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 rounded-full">
+                      4 unread
+                    </span>
                   </div>
-                  <div className="divide-y divide-slate-50 dark:divide-slate-800">
+                  <div className="divide-y divide-slate-50 dark:divide-slate-800 max-h-80 overflow-y-auto">
                     {[
-                      { icon: "⚡", title: "Hackathon Key Drop in 30m", sub: "Pick up swag bags at Turing 101." },
-                      { icon: "📚", title: "Study Pod #3 Reserved", sub: "Pass confirmed for current student." },
-                      { icon: "🏆", title: "CS 381 Lab Graded", sub: "Score posted: 98/100. Excellent work!" },
-                    ].map((n) => (
-                      <div key={n.title} className="px-4 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
-                        <p className="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span>{n.icon}</span>{n.title}</p>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{n.sub}</p>
-                      </div>
+                      {
+                        badge: "APPEARING SOON",
+                        badgeColor: "bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800",
+                        icon: "⏰",
+                        title: "DS 420 Class Starts in 20m",
+                        sub: "Deep Learning Foundations · Room: Innovation Pavilion B12 · Prof. Kamal Hossain",
+                        time: "In 20 mins",
+                        link: "/#schedule"
+                      },
+                      {
+                        badge: "CLASS CANCELLED",
+                        badgeColor: "bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800",
+                        icon: "⚠️",
+                        title: "CSE 315 Lab Session Cancelled Today",
+                        sub: "Notice: Dr. Marium Lipi attending CPCCU Hackathon. Make-up lab scheduled next Tuesday.",
+                        time: "Today 5:30 PM",
+                        link: "/#schedule"
+                      },
+                      {
+                        badge: "SHUTTLE UPDATE",
+                        badgeColor: "bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800",
+                        icon: "🚌",
+                        title: "Mirpur Express Bus Ready to Depart",
+                        sub: "Gate 1 Stoppage · Scheduled 2:15 PM departure on time.",
+                        time: "10 mins ago",
+                        link: "/shuttle"
+                      },
+                      {
+                        badge: "HACKATHON",
+                        badgeColor: "bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800",
+                        icon: "⚡",
+                        title: "Hackathon Key Drop in 30m",
+                        sub: "Pick up swag bags and judge evaluation tickets at Turing Hall 101.",
+                        time: "15 mins ago",
+                        link: "/events"
+                      },
+                    ].map((n, idx) => (
+                      <Link
+                        key={idx}
+                        href={n.link}
+                        onClick={() => setNotificationsOpen(false)}
+                        className="block px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <span className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border ${n.badgeColor}`}>
+                            {n.badge}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-mono">{n.time}</span>
+                        </div>
+                        <p className="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                          <span>{n.icon}</span>{n.title}
+                        </p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug">{n.sub}</p>
+                      </Link>
                     ))}
                   </div>
-                  <div className="px-4 pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <button onClick={() => setNotificationsOpen(false)} className="w-full text-[11px] font-bold text-campus-600 hover:underline">
-                      Mark all as read
+                  <div className="px-4 pt-2 pb-1 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <Link
+                      href="/#schedule"
+                      onClick={() => setNotificationsOpen(false)}
+                      className="text-[11px] font-bold text-campus-600 dark:text-campus-400 hover:underline"
+                    >
+                      View Full Academic Schedule →
+                    </Link>
+                    <button onClick={() => setNotificationsOpen(false)} className="text-[10px] text-slate-400 hover:text-slate-600">
+                      Dismiss
                     </button>
                   </div>
                 </div>
