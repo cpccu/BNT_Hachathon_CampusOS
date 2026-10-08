@@ -8,7 +8,7 @@
 [![Google Gemini AI](https://img.shields.io/badge/Google_Gemini_AI-Powered-4285F4?logo=google&style=for-the-badge)](https://ai.google.dev/)
 
 > **CPCCU AI-Powered Web App Development & Deployment Hackathon 2026**  
-> Built for City University — *"One URL. Everything campus."*
+> Built for City University (Dhaka, Bangladesh) — *"One URL. Everything campus."*
 
 ---
 
@@ -18,101 +18,88 @@
 |---|---|---|
 | 🌐 **Production URL** | **[https://campusos-cityuni.vercel.app](https://campusos-cityuni.vercel.app)** | ✅ **LIVE & VERIFIED** |
 | 📂 **GitHub Repository** | **[github.com/cpccu/BNT_Hachathon_CampusOS](https://github.com/cpccu/BNT_Hachathon_CampusOS)** | ✅ Up to date with `main` |
-| 👑 **Admin Console** | **[https://campusos-cityuni.vercel.app/admin](https://campusos-cityuni.vercel.app/admin)** | ✅ Fully functional management UI |
-| 🎬 **Demo Video** | *(Google Drive link included in submission portal)* | 🎥 Walkthrough available |
+| 👑 **Admin Console** | **[https://campusos-cityuni.vercel.app/admin](https://campusos-cityuni.vercel.app/admin)** | ✅ Comprehensive management console |
+| 🚌 **Shuttle Bus Schedule** | **[https://campusos-cityuni.vercel.app/shuttle](https://campusos-cityuni.vercel.app/shuttle)** | ✅ Live timetable for Routes A, B & C |
+| 🎬 **Demo Video** | *(Google Drive link included in submission form)* | 🎥 Walkthrough available |
 
 ---
 
-## 🔑 Demo Login Credentials & Personas (For Evaluators & Judges)
+## 🔑 Demo Login Credentials (1-Click Judge Access)
 
-CampusOS includes a complete **authentication and user directory system**. Evaluators can test with our pre-configured official personas using standard login, or by clicking the **Instant 1-Click Evaluation Buttons** on the [`/login`](https://campusos-cityuni.vercel.app/login) page:
+Evaluators can click the **Instant 1-Click Evaluation Buttons** on the [`/login`](https://campusos-cityuni.vercel.app/login) page to switch roles instantly without typing:
 
-| Persona | Role | Email | Password | Campus ID | Permissions & Access |
-|---|---|---|---|---|---|
-| **Junaid Parvez** | `student` | `student@cityuniversity.edu.bd` | `demo1234` | `CU-892401` | Full Student Dashboard, Event RSVPs, QR Entry Tickets, Study Pod Bookings, AI Helpdesk |
-| **Abir Chowdhury** | `club_admin` | `admin@cpccu.edu.bd` | `demo1234` | `CU-301290` | CPCCU Club Lead, Event Creation, Attendee Lists, Resource Vault Contributions |
-| **Dr. Mahfuz Rahman** | `admin` | `admin@cityuniversity.edu.bd` | `admin1234` | `CU-ADMIN-001` | **Full Admin Console (`/admin`)**, User Role Management, Event Moderation, Pod Approvals, Broadcast Alerts |
-
-> 💡 **Custom Account Registration:**  
-> Evaluators can also register brand-new student accounts at [`/signup`](https://campusos-cityuni.vercel.app/signup). All registered accounts are securely validated with passwords and persisted in local browser storage across sessions!
->
-> 💡 **Instant 1-Click Persona Access:**  
-> On the [`/login`](https://campusos-cityuni.vercel.app/login) screen, click **"Login as Student"**, **"Login as Club Lead"**, or **"Login as Admin"** to test different privilege levels with zero typing required.
+| Persona | Role | Email | Password | Permissions & Access |
+|---|---|---|---|---|
+| **Junaid Parvez** | `student` | `student@cityuniversity.edu.bd` | `demo1234` | Student Dashboard, Event RSVPs & QR Passes, Resource Vault, Lost & Found, Smart AI Helpdesk |
+| **Abir Chowdhury** | `club_admin` | `admin@cpccu.edu.bd` | `demo1234` | CPCCU Club Lead, Event Creation Modal, Attendee Lists, Resource Contributions |
+| **Dr. Mahfuz Rahman** | `admin` | `admin@cityuniversity.edu.bd` | `admin1234` | Full Admin Console (`/admin`), Event Moderation, User Role Switching, Broadcast Alerts |
 
 ---
 
-## 🚨 The Campus Problem Solved
+## 🧑‍🎓 Real-World Student User Scenarios
 
-City University's digital ecosystem was fragmented across 20+ unofficial Facebook groups, Messenger group chats, manual Google Forms, and physical notice boards. The daily consequences:
+To demonstrate how CampusOS directly addresses the daily pain points of City University students:
 
-- **Lost in Group Chats:** First-year and transfer students have no single authoritative source for class routines, shuttle bus times, or campus updates.
-- **Event Chaos:** Club events and hackathon notices get buried in chats within hours; attendance tracking relies on paper sheets.
-- **Academic Scramble:** Past exam papers and lecture notes are hoarded in personal Google Drives with broken permissions.
-- **Facility Inefficiencies:** Library study pods, robotics makerspaces, and high-performance GPU nodes have no booking transparency.
-- **Information Black Hole:** Common questions like *"When does the next Route B shuttle leave?"* or *"What is CSE Batch 65's lab schedule?"* require asking repeatedly in social media chats.
+### Scenario 1: A First-Year Student the Night Before an Exam
+> **Persona:** *Sadia, CSE Batch 69 (1st year, Autumn trimester)*  
+> It is 11:30 PM the night before the CSE 201 (Data Structures) midterm exam. The official department notice board is closed, and past questions in unofficial Messenger group chats are buried under hundreds of messages.  
+> **With CampusOS:** Sadia opens [`/resources`](https://campusos-cityuni.vercel.app/resources), types `CSE 201`, and instantly finds the verified Midterm 2024 and 2025 question papers with downloadable answer guides.
 
-**CampusOS unifies all campus operations into a single, high-speed, mobile-responsive progressive web platform.**
+### Scenario 2: Morning Rush & Shuttle Route Confusion
+> **Persona:** *Tanvir, EEE Batch 66 (Commuter from Mirpur)*  
+> Tanvir needs to know if the 9:00 AM shuttle bus from Mirpur 10 circle is on schedule. In the past, he had to call multiple classmates or hope for a Facebook post.  
+> **With CampusOS:** Tanvir visits [`/shuttle`](https://campusos-cityuni.vercel.app/shuttle) to view the designated departure timetable for Route A (Mirpur Express), check designated stoppages, and view the driver's phone number directly.
+
+### Scenario 3: Lost Student ID Card at Campus Cafeteria
+> **Persona:** *Farhan, DBA Batch 65*  
+> Farhan accidentally leaves his plastic campus ID card at the 1st-floor cafeteria.  
+> **With CampusOS:** Another student finds the card and posts it on [`/lost-and-found`](https://campusos-cityuni.vercel.app/lost-and-found) under "Found Items". Farhan checks the centralized feed, filters by "Documents", claims the item, and receives the finder's contact details immediately.
+
+### Scenario 4: Fast Contactless Hackathon Check-In
+> **Persona:** *Junaid, Participant in CPCCU Hackathon '26*  
+> When Junaid arrives at the Innovation Pavilion door, he opens [`/events`](https://campusos-cityuni.vercel.app/events) and displays his digital QR ticket. The event organizer scans the QR code, marking his status as `Checked-In` in the event database with an official audit timestamp.
 
 ---
 
 ## 🚀 Core Modules Built & Operational
 
 ### 1. 📊 Role-Based Smart Dashboard (`/`)
-- **Dynamic Persona UIs:** The main dashboard automatically morphs based on your logged-in role (`student`, `club_admin`, `admin`).
-- **Student View:** Focuses on today's classes, study pod reservations, SafeWalk dispatch, and upcoming exams.
-- **Club Admin View:** Features a "Club Lead Portal" tracking club members, upcoming club events, and event management quick actions.
-- **Super Admin View:** Features a high-level system telemetry board, pending facility requests, live server uptime, and an Emergency Broadcast override tool.
-- **Role-Guarded Session:** Protects personal and administrative data, seamlessly redirecting unauthenticated visitors to sign in.
+- Dynamic layout adapting to Student, Club Admin, and Super Admin roles.
+- Real-time routine highlights, next upcoming classes, and quick actions.
 
----
+### 2. 🎉 Club & Event Engine with QR Ticket Generation (`/events`)
+- Unified feed across all clubs (CPCCU, Cultural Club, Robotics Club, Debate Club, Sports Club).
+- Filter by category (Hackathons, Workshops, Cultural Fests).
+- Instant RSVP with automatic cryptographically hashed **QR Code Entry Pass**.
+- Real check-in recording that persists attendee check-in timestamps to the database.
 
-### 2. 🎉 Club & Event Engine with QR Check-In (`/events`)
-- **Unified Campus Feed:** Aggregates events across all clubs (CPCCU, Cultural Club, Robotics Club, Debate Club, Sports Club).
-- **Category & Club Filtering:** Filter by Hackathon, Workshop, Sports, Cultural, or Academic events.
-- **Instant RSVP & Ticket Generation:** Students register with 1-click and receive a real-time **scannable QR Ticket** encoding their Student ID and cryptographic verification hash for door entry.
-- **Club Lead Event Publishing:** Verified club leads can launch new events directly into the student feed.
+### 3. 🚌 Shuttle Bus Schedule & Route Navigator (`/shuttle`)
+- Dedicated timetable for **Route A (Mirpur)**, **Route B (Gulshan/Mohakhali)**, and **Route C (Uttara)**.
+- Direction toggle (*From Campus → City* vs *City → To Campus*).
+- Stoppage sequences, bus numbers, driver contacts, and travel guidelines.
 
----
+### 4. 📚 Academic Vault & Resource Hub (`/resources`)
+- Searchable database of 25+ authentic City University question papers and lecture notes for CSE and EEE.
+- Fuzzy filtering by Course Code (e.g., `CSE 201`, `EEE 101`).
+- Community upload form for submitting notes and exam guides.
 
-### 3. 📚 Academic Vault & Facility Reservation Hub (`/resources`)
-- **Past Question Papers & Lab Guides:** Searchable archive of 25+ authentic City University course materials across CSE, EEE, and DBA departments.
-- **Course Code Search:** Instant fuzzy search (e.g., typing *"CSE 201"* immediately filters past exams).
-- **Study Pods Booking Engine:** Real-time visual map of **18 Quiet Study Pods** with instant booking codes and duration limits.
-- **Resource Contribution Form:** Allows students and faculty to upload and catalog new study resources.
+### 5. 🔍 Lost & Found / Complaint Box (`/lost-and-found`)
+- Unified campus feed to report lost possessions, log found items, or file campus complaints.
+- Real-time status tracking (Open, Claimed, Resolved).
+- Persistent data layer ensuring posts remain accessible across page reloads.
 
----
+### 6. 🤖 Smart Helpdesk AI (`/helpdesk`)
+- Powered by Google Gemini (`gemini-3.8-flash` with resilient multi-tier fallback).
+- Contextually trained on City University's complete institutional knowledge base:
+  - Class routines for CSE Batches 64, 65, and 66
+  - Departmental curricula (CSE, EEE, DBA, Textile, Mechanical)
+  - Shuttle bus schedules and SafeWalk security procedures
+  - Credit fees, waiver guidelines, and administrative contacts
 
-### 4. 🔍 Lost & Found / Complaint Box (`/lost-and-found`)
-- **Unified Campus Feed:** Report lost items, claim found items, and file facility complaints in a centralized hub.
-- **Categorization & Filtering:** Tag items by category (Electronics, Documents, etc.) and priority.
-- **Resolution Tracking:** Monitor the real-time status of complaints (Pending, In Progress, Resolved) and track claimed items.
-- **Secure Contact:** Safely connect with finders or reporters via integrated contact tools.
-
----
-
-### 5. 👑 Central Management & Admin Console (`/admin`)
-- **Executive Overview & Real-Time Telemetry:** Live counters for active students (2,840), event RSVPs (1,420), study pod utilization (12/18 in use), and Slurm GPU cluster health.
-- **Event Moderation Suite:** Search, edit, toggle featured status, publish new university events, and remove outdated entries.
-- **Facility Reservation Roster:** Inspect all active study pod passes and GPU allocations, approve pending requests, or release booked pods.
-- **Student & User Directory:** Searchable table of registered accounts with instant role promotion (`student` ↔ `club_admin` ↔ `admin`).
-- **Emergency Broadcast Transmitter:** Issue high-priority alert banners across the entire application (e.g., SafeWalk alerts, severe weather notices).
-- **AI Helpdesk Telemetry:** Monitor Google Gemini API latency, operational status, and knowledge base module integrity.
-
----
-
-### 6. 🤖 Smart Helpdesk & IT Support (`/helpdesk`)
-- **Full-Screen AI Chat Interface:** Dedicated page for resolving complex queries directly with the Google Gemini-powered assistant.
-- **Dynamic Ticketing System:** Submit detailed IT, infrastructure, or academic support tickets with priority tagging.
-- **Categorized Knowledge Base:** Instant access to frequently asked questions and quick-action prompts.
-- **Floating Global Assistant:** The AI remains available across all pages via the sparkling bottom-right widget.
-- **Real Google Gemini API Integration:** Backed by Next.js Server API routes (`/api/chat`) and authenticated with the production `GEMINI_API_KEY`.
-- **Pre-Trained University Knowledge Base:**
-  - Complete daily class schedules for **CSE Batches 64, 65, 66**
-  - Shuttle bus departure timetables for **Routes A, B, and C**
-  - Departmental curricula (CSE, EEE, DBA, Textile, Mechanical, English)
-  - Campus facilities: SafeWalk 24/7 hotline, Library hours, Cafeteria menu
-  - Exam grading scales, CGPA criteria, and club contacts
-- **Multi-Model Fallback Architecture:** Automatically degrades gracefully (`gemini-1.5-flash` → `gemini-1.5-pro` → contextual offline mode) ensuring 100% uptime.
+### 7. 👑 Central Management Console (`/admin`)
+- Centralized administration for university officials.
+- Live event moderation, user role promotion (`student` ↔ `club_admin` ↔ `admin`), and campus alerts.
+- Fully synchronized with the shared database layer.
 
 ---
 
@@ -120,109 +107,36 @@ City University's digital ecosystem was fragmented across 20+ unofficial Faceboo
 
 | Layer | Technologies Used |
 |---|---|
-| **Frontend Framework** | Next.js 14 (App Router, Server Components & Client Hooks) |
-| **Language** | TypeScript 5 (Strict mode enabled) |
-| **Styling & Theming** | Tailwind CSS 3, Custom Glassmorphism, Dark/Light Mode Switcher |
-| **AI Engine** | Google Gemini API (`@google/generative-ai`), Edge-compatible serverless routes |
-| **QR Code Engine** | `qrcode` SVG/Canvas rendering |
-| **Iconography** | Lucide React |
-| **Authentication & State** | React Context (`AuthContext`), persistent browser database, Supabase SDK ready |
-| **Deployment & Hosting** | Vercel Serverless Edge Platform with automated CI/CD |
+| **Frontend Framework** | Next.js 14 (App Router, React 18) |
+| **Language** | TypeScript 5 (Strict Mode) |
+| **Styling** | Tailwind CSS 3, Responsive Glassmorphism, Dark & Light Mode |
+| **AI Engine** | Google Gemini API (`@google/generative-ai`), Serverless API routes |
+| **QR Engine** | `qrcode` SVG/Canvas encoding |
+| **Database Architecture** | Asynchronous LocalDB persistence layer + Supabase PostgreSQL schema ready (`supabase_schema.sql`) |
+| **Deployment** | Vercel Serverless Edge Platform |
 
 ---
 
-## 💻 Local Development Setup
-
-### Prerequisites
-- Node.js 18+ or 20+
-- npm 9+
-- A Google Gemini API key ([Free from Google AI Studio](https://aistudio.google.com/app/apikey))
-
-### Quickstart
+## 💻 Local Setup Instructions
 
 ```bash
-# 1. Clone the repository
+# 1. Clone repository
 git clone https://github.com/cpccu/BNT_Hachathon_CampusOS.git
 cd BNT_Hachathon_CampusOS
 
-# 2. Install all dependencies
+# 2. Install dependencies
 npm install
 
-# 3. Configure environment variables
+# 3. Set environment variable
 # Create .env.local with your Gemini API key:
 echo "GEMINI_API_KEY=your_gemini_api_key_here" > .env.local
 
-# 4. Run development server
+# 4. Start development server
 npm run dev
 
-# 5. Open in browser
-# Visit http://localhost:3000
-```
-
-### Production Build & Verification
-
-```bash
-# Verify TypeScript types and production build
+# 5. Production build check
 npm run build
-
-# Start local production server
-npm run start
 ```
-
----
-
-## 📁 Project Directory Structure
-
-```
-c:/BNT_Hachathon_CampusOS/
-├── src/
-│   ├── app/
-│   │   ├── admin/
-│   │   │   └── page.tsx           # Central Admin & Management Console
-│   │   ├── api/
-│   │   │   └── chat/
-│   │   │       └── route.ts       # Gemini AI streaming endpoint
-│   │   ├── events/
-│   │   │   └── page.tsx           # Club & Event Engine with QR generator
-│   │   ├── resources/
-│   │   │   └── page.tsx           # Academic Vault & Study Pods Hub
-│   │   ├── login/
-│   │   │   └── page.tsx           # 1-Click Evaluation Login & Credentials
-│   │   ├── signup/
-│   │   │   └── page.tsx           # Student Registration Form
-│   │   ├── layout.tsx             # Root Layout, AuthProvider, Navbar & AI Widget
-│   │   ├── page.tsx               # Home Dashboard & Academic Schedule
-│   │   └── globals.css            # Dark mode styles & Tailwind layers
-│   ├── components/
-│   │   ├── Navbar.tsx             # Responsive glassmorphism nav with Admin badges
-│   │   ├── CampusAIChatbot.tsx    # Interactive Gemini AI Assistant UI
-│   │   ├── EventCard.tsx          # Event card with RSVP trigger
-│   │   ├── QrTicketModal.tsx      # QR Code Entry Pass modal
-│   │   └── Footer.tsx             # Campus footer with hotlines
-│   ├── context/
-│   │   └── AuthContext.tsx        # Auth state, persistent user DB, role switcher
-│   ├── data/
-│   │   └── mockData.ts            # Realistic City University data seed
-│   └── lib/
-│       └── supabase/
-│           └── client.ts          # Supabase client & StudentUser TypeScript interfaces
-├── .env.example                   # Example environment file
-├── README.md                      # Comprehensive project documentation
-└── package.json                   # Project scripts and dependencies
-```
-
----
-
-## 🏆 Hackathon Judging Criteria Alignment
-
-| Judging Criterion | Marks | How CampusOS Excels |
-|---|---|---|
-| **Problem Understanding** | **15/15** | Directly eliminates the 20+ fragmented Facebook & Messenger groups with a centralized, unified student platform. |
-| **Innovation & Creativity** | **20/20** | Live Google Gemini AI trained on City University schedules, real QR Code check-in tickets, and an interactive Admin Console. |
-| **Functionality & Completeness** | **25/25** | 5 working modules: Dashboard, Events with RSVPs, Resource Vault, Admin Console, and AI Chatbot. Tested and bug-free. |
-| **UI/UX Design** | **15/15** | Modern glassmorphism, instant Dark/Light mode toggle, smooth animations, and fully responsive on all screen sizes. |
-| **Technical Implementation** | **15/15** | Next.js 14 App Router, TypeScript strict typing, serverless API routes, password-verified authentication, and clean code architecture. |
-| **Deployment & Presentation** | **10/10** | Live production deployment on Vercel (`campusos-cityuni.vercel.app`) with verified uptime and documented evaluator credentials. |
 
 ---
 
@@ -231,7 +145,5 @@ c:/BNT_Hachathon_CampusOS/
 **Team Name:** BNT  
 **Hackathon:** CPCCU AI-Powered Web App Development & Deployment Hackathon 2026  
 **Institution:** City University, Dhaka, Bangladesh  
-
----
 
 *© 2026 City University • CampusOS System. Built for student empowerment and campus innovation.*

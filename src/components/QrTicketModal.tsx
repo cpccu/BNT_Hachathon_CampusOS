@@ -18,6 +18,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { CampusEvent } from "@/data/mockData";
+import { LocalDB } from "@/lib/db";
 
 interface QrTicketModalProps {
   isOpen: boolean;
@@ -100,6 +101,9 @@ export default function QrTicketModal({
     });
     setIsCheckedIn(true);
     setCheckInTime(timeStr);
+    if (event) {
+      LocalDB.checkInAttendee(event.id, ticketId, student.studentId);
+    }
   };
 
   const handlePrint = () => {

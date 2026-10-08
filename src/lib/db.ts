@@ -7,11 +7,12 @@ export interface DatabaseProvider {
   addFoundItem(item: any): Promise<void>;
   addComplaint(complaint: any): Promise<void>;
   addEvent(event: any): Promise<void>;
+  checkInAttendee(eventId: string, ticketId: string, studentId: string): Promise<boolean>;
+  getCheckIns(eventId: string): Promise<any[]>;
 }
 
 import { MOCK_LOST_AND_FOUND, MOCK_COMPLAINTS, MOCK_EVENTS } from "@/data/mockData";
 
-// LocalStorage Database implementation for Hackathon completeness
 export const LocalDB: DatabaseProvider = {
   async getLostItems() {
     if (typeof window === "undefined") return MOCK_LOST_AND_FOUND.filter(i => i.type === "Lost");
@@ -49,7 +50,7 @@ export const LocalDB: DatabaseProvider = {
 
   async addLostItem(item) {
     const items = await this.getLostItems();
-    items.unshift(item); // add to top
+    items.unshift(item);
     localStorage.setItem("db_lost_items", JSON.stringify(items));
   },
 
@@ -69,5 +70,29 @@ export const LocalDB: DatabaseProvider = {
     const events = await this.getEvents();
     events.unshift(event);
     localStorage.setItem("campusos_events_list_v2", JSON.stringify(events));
+  },
+
+  async checkInAttendee(eventId: string, ticketId: string, studentId: string) {
+    if (typeof window === "undefined") return true;
+    const key = `campusos_checkins_${eventId}`;
+    const stored = localStorage.getItem(key);
+    const list = stored ? JSON.parse(stored) : [];
+    const record = {
+      ticketId,
+      studentId,
+      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+      date: new Date().toLocaleDateString(),
+      verified: true
+    };
+    list.unshift(record);
+    localStorage.setItem(key, JSON.stringify(list));
+    return true;
+  },
+
+  async getCheckIns(eventId: string) {
+    if (typeof window === "undefined") return [];
+    const key = `campusos_checkins_${eventId}`;
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : [];
   }
 };

@@ -26,6 +26,7 @@ import {
   Crown,
   Search,
   LifeBuoy,
+  Bus,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -67,6 +68,7 @@ export default function Navbar() {
     { name: "Dashboard", href: "/", icon: LayoutDashboard, badge: null },
     { name: "Events", href: "/events", icon: CalendarDays, badge: "Live" },
     { name: "Resources", href: "/resources", icon: FolderKanban, badge: null },
+    { name: "Shuttle", href: "/shuttle", icon: Bus, badge: "Live" },
     { name: "Lost & Found", href: "/lost-and-found", icon: Search, badge: "New" },
     { name: "Help Desk", href: "/helpdesk", icon: LifeBuoy, badge: "AI" },
     ...(user?.role === "admin"
