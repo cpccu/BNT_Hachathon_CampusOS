@@ -29,9 +29,17 @@ export default function LostAndFoundPage() {
   const [showAddModal, setShowAddModal] = useState(false);
 
   // Local state to simulate additions
-  const [lostItems, setLostItems] = useState<LostAndFoundItem[]>(MOCK_LOST_AND_FOUND.filter(item => item.type === "Lost"));
-  const [foundItems, setFoundItems] = useState<LostAndFoundItem[]>(MOCK_LOST_AND_FOUND.filter(item => item.type === "Found"));
-  const [complaints, setComplaints] = useState<Complaint[]>(MOCK_COMPLAINTS);
+  const [lostItems, setLostItems] = useState<LostAndFoundItem[]>([]);
+  const [foundItems, setFoundItems] = useState<LostAndFoundItem[]>([]);
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+
+  React.useEffect(() => {
+    import("@/lib/db").then(({ LocalDB }) => {
+      LocalDB.getLostItems().then(setLostItems);
+      LocalDB.getFoundItems().then(setFoundItems);
+      LocalDB.getComplaints().then(setComplaints);
+    });
+  }, []);
 
   const [notification, setNotification] = useState<{ isOpen: boolean; title: string; message: string; referenceId?: string }>({
     isOpen: false,
@@ -63,8 +71,14 @@ export default function LostAndFoundPage() {
         status: "Active",
         reporterName: reporterName,
       };
-      if (activeTab === "lost") setLostItems([newItem, ...lostItems]);
-      if (activeTab === "found") setFoundItems([newItem, ...foundItems]);
+      if (activeTab === "lost") {
+        setLostItems([newItem, ...lostItems]);
+        import("@/lib/db").then(({ LocalDB }) => LocalDB.addLostItem(newItem));
+      }
+      if (activeTab === "found") {
+        setFoundItems([newItem, ...foundItems]);
+        import("@/lib/db").then(({ LocalDB }) => LocalDB.addFoundItem(newItem));
+      }
     } else {
       const newComplaint: Complaint = {
         id: newId,
@@ -78,6 +92,7 @@ export default function LostAndFoundPage() {
         priority: formData.get("priority") as any,
       };
       setComplaints([newComplaint, ...complaints]);
+      import("@/lib/db").then(({ LocalDB }) => LocalDB.addComplaint(newComplaint));
     }
 
     setShowAddModal(false);

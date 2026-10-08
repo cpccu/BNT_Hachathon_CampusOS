@@ -132,6 +132,14 @@ function AdminDashboard({ user, onAction }: { user: any, onAction: (a: string) =
 }
 
 function ClubAdminDashboard({ user, onAction }: { user: any, onAction: (a: string) => void }) {
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    import("@/lib/db").then(({ LocalDB }) => {
+      LocalDB.getEvents().then(e => setEvents(e.filter((evt: any) => evt.clubId === "club-cpccu")));
+    });
+  }, []);
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-900 via-indigo-900 to-campus-900 text-white p-6 sm:p-10 shadow-xl border border-purple-800">
@@ -176,7 +184,7 @@ function ClubAdminDashboard({ user, onAction }: { user: any, onAction: (a: strin
           <Calendar className="w-5 h-5 text-campus-600" /> Manage Upcoming Club Events
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {MOCK_EVENTS.filter(e => e.clubId === "club-cpccu").map(evt => (
+          {events.map((evt: any) => (
             <div key={evt.id} className="p-4 border border-slate-200 rounded-xl flex flex-col justify-between hover:border-campus-400 transition-colors">
               <div>
                 <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md mb-2 inline-block">{evt.date}</span>
