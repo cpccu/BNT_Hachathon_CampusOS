@@ -23,6 +23,7 @@ import {
   Sun,
   Zap,
   MessageSquare,
+  Crown,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -64,6 +65,9 @@ export default function Navbar() {
     { name: "Dashboard", href: "/", icon: LayoutDashboard, badge: null },
     { name: "Events", href: "/events", icon: CalendarDays, badge: "Live" },
     { name: "Resources", href: "/resources", icon: FolderKanban, badge: null },
+    ...(user?.role === "admin"
+      ? [{ name: "Admin Console", href: "/admin", icon: Crown, badge: "Admin" }]
+      : []),
   ];
 
   const isActive = (path: string) => {
@@ -250,10 +254,17 @@ export default function Navbar() {
                       </div>
                       <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
                         <span className="px-2 py-0.5 text-[10px] rounded-full bg-campus-50 dark:bg-campus-950 text-campus-700 dark:text-campus-400 font-bold border border-campus-200 dark:border-campus-800">{user.batch}</span>
-                        <span className="px-2 py-0.5 text-[10px] rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">{user.role === "club_admin" ? "🛡️ Org Admin" : "🎓 Student"}</span>
+                        <span className="px-2 py-0.5 text-[10px] rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
+                          {user.role === "admin" ? "👑 Campus Admin" : user.role === "club_admin" ? "🛡️ Org Admin" : "🎓 Student"}
+                        </span>
                       </div>
                     </div>
                     <div className="px-2 py-1">
+                      {user.role === "admin" && (
+                        <Link href="/admin" onClick={() => setProfileDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 rounded-xl transition-colors border border-amber-200 dark:border-amber-900/50 mb-1">
+                          <Crown className="w-4 h-4 text-amber-600" /><span>Admin Management Console</span>
+                        </Link>
+                      )}
                       <Link href="/events" onClick={() => setProfileDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors">
                         <UserCheck className="w-4 h-4 text-campus-600" /><span>My RSVPs & Memberships</span>
                       </Link>

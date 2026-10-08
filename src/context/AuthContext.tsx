@@ -8,13 +8,18 @@ import {
   StudentUser,
 } from "@/lib/supabase/client";
 
-interface SignUpData {
+export interface RegisteredUserRecord extends StudentUser {
+  password?: string;
+}
+
+export interface SignUpData {
   email: string;
   password: string;
   studentId: string;
   fullName: string;
   batch: string;
   department?: string;
+  role?: "student" | "club_admin" | "admin";
 }
 
 interface AuthContextType {
@@ -24,21 +29,66 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (data: SignUpData) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
-  quickDemoLogin: (role?: "student" | "club_admin") => void;
+  quickDemoLogin: (role?: "student" | "club_admin" | "admin") => void;
+  getAllUsers: () => RegisteredUserRecord[];
+  updateUserRole: (userId: string, newRole: "student" | "club_admin" | "admin") => void;
 }
 
-const LOCAL_STORAGE_KEY = "campusos_current_user";
+export const LOCAL_STORAGE_KEY = "campusos_current_user";
+export const USER_DATABASE_KEY = "campusos_user_database_v2";
 
-const DEFAULT_DEMO_STUDENT: StudentUser = {
-  id: "cu-usr-892401",
-  email: "jordan.patel@cityuni.edu",
-  studentId: "CU-892401",
-  fullName: "Jordan Patel",
-  batch: "Class of 2026",
-  department: "Computer Science",
-  role: "student",
-  avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-};
+/**
+ * Official Hackathon Demo Accounts
+ * All credentials are documented in README.md and supported with 1-click login
+ */
+export const PRESET_DEMO_ACCOUNTS: RegisteredUserRecord[] = [
+  {
+    id: "cu-usr-892401",
+    email: "student@cityuniversity.edu.bd",
+    password: "demo1234",
+    studentId: "CU-892401",
+    fullName: "Jordan Patel",
+    batch: "Batch 65 (Class of 2026)",
+    department: "Computer Science & Engineering",
+    role: "student",
+    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "cu-usr-892401-legacy",
+    email: "jordan.patel@cityuni.edu",
+    password: "demo1234",
+    studentId: "CU-892401",
+    fullName: "Jordan Patel",
+    batch: "Batch 65 (Class of 2026)",
+    department: "Computer Science & Engineering",
+    role: "student",
+    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "cu-admin-30129",
+    email: "admin@cpccu.edu.bd",
+    password: "demo1234",
+    studentId: "CU-301290",
+    fullName: "Alex Chen (CPCCU Lead)",
+    batch: "Batch 63 (Class of 2025)",
+    department: "Computer Science & Engineering",
+    role: "club_admin",
+    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "cu-sysadmin-001",
+    email: "admin@cityuniversity.edu.bd",
+    password: "admin1234",
+    studentId: "CU-ADMIN-001",
+    fullName: "Dr. Mahfuz Rahman (Campus Registrar & Admin)",
+    batch: "Faculty & Administration",
+    department: "Central IT & Campus Administration",
+    role: "admin",
+    avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+  },
+];
+
+export const DEFAULT_DEMO_STUDENT = PRESET_DEMO_ACCOUNTS[0];
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -47,13 +97,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<StudentUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper to load registered users from localStorage
+  const loadLocalUserDb = (): RegisteredUserRecord[] => {
+    if (typeof window === "undefined") return PRESET_DEMO_ACCOUNTS;
+    try {
+      const raw = localStorage.getItem(USER_DATABASE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        // Ensure preset demo accounts always exist
+        const emails = new Set(parsed.map((u: RegisteredUserRecord) => u.email.toLowerCase()));
+        const merged = [...parsed];
+        for (const preset of PRESET_DEMO_ACCOUNTS) {
+          if (!emails.has(preset.email.toLowerCase())) {
+            merged.push(preset);
+          }
+        }
+        return merged;
+      }
+    } catch (e) {
+      console.error("Failed to parse local user database", e);
+    }
+    // Seed initial database
+    try {
+      localStorage.setItem(USER_DATABASE_KEY, JSON.stringify(PRESET_DEMO_ACCOUNTS));
+    } catch (e) {
+      console.error(e);
+    }
+    return PRESET_DEMO_ACCOUNTS;
+  };
+
   useEffect(() => {
     async function initAuth() {
       if (isSupabaseConfigured) {
         try {
           const { data: { session } } = await supabase.auth.getSession();
           if (session?.user) {
-            // Fetch user profile from public.users table
             const { data: profile } = await supabase
               .from("users")
               .select("*")
@@ -87,9 +165,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.warn("Supabase auth check fallback:", err);
         }
       } else {
-        // Fallback demo mode: check localStorage or seed with default student if not logged out
+        // Local mode: initialize user database
+        loadLocalUserDb();
+
         const saved = typeof window !== "undefined" ? localStorage.getItem(LOCAL_STORAGE_KEY) : null;
         const isLoggedOut = typeof window !== "undefined" ? localStorage.getItem("campusos_logged_out") === "true" : false;
+
         if (saved) {
           try {
             setUser(JSON.parse(saved));
@@ -99,6 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else if (isLoggedOut) {
           setUser(null);
         } else {
+          // Default initial state for first-time evaluators
           setUser(DEFAULT_DEMO_STUDENT);
           if (typeof window !== "undefined") {
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_DEMO_STUDENT));
@@ -142,16 +224,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signUp = async (data: SignUpData): Promise<{ error: string | null }> => {
+    const cleanEmail = (data.email || "").trim().toLowerCase();
+    const cleanStudentId = (data.studentId || "").trim().toUpperCase();
+
     if (isSupabaseConfigured) {
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: data.email,
+        email: cleanEmail,
         password: data.password,
         options: {
           data: {
-            student_id: data.studentId,
+            student_id: cleanStudentId,
             full_name: data.fullName,
             batch: data.batch,
-            department: data.department || "Computer Science",
+            department: data.department || "Computer Science & Engineering",
           },
         },
       });
@@ -159,44 +244,65 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (authError) return { error: authError.message };
 
       if (authData.user) {
-        // Also ensure public.users row exists
         await supabase.from("users").upsert({
           id: authData.user.id,
-          email: data.email,
-          student_id: data.studentId,
+          email: cleanEmail,
+          student_id: cleanStudentId,
           full_name: data.fullName,
           batch: data.batch,
-          department: data.department || "Computer Science",
-          role: "student",
+          department: data.department || "Computer Science & Engineering",
+          role: data.role || "student",
         });
       }
 
       return { error: null };
     } else {
-      // Local demo mode simulation
-      const newUser: StudentUser = {
+      // Local mode authentication with persistence
+      const usersDb = loadLocalUserDb();
+
+      if (usersDb.some((u) => u.email.toLowerCase() === cleanEmail)) {
+        return { error: "An account with this email address already exists. Please sign in." };
+      }
+
+      if (usersDb.some((u) => u.studentId.toUpperCase() === cleanStudentId)) {
+        return { error: "An account with this Student ID already exists. Please verify your credentials." };
+      }
+
+      const newUser: RegisteredUserRecord = {
         id: "cu-usr-" + Math.floor(100000 + Math.random() * 900000),
-        email: data.email,
-        studentId: data.studentId,
-        fullName: data.fullName,
+        email: cleanEmail,
+        password: data.password,
+        studentId: cleanStudentId,
+        fullName: data.fullName.trim(),
         batch: data.batch,
-        department: data.department || "Computer Science",
-        role: "student",
+        department: data.department || "Computer Science & Engineering",
+        role: data.role || "student",
+        avatarUrl: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(data.fullName)}`,
       };
-      setUser(newUser);
+
+      const updatedDb = [...usersDb, newUser];
       if (typeof window !== "undefined") {
+        localStorage.setItem(USER_DATABASE_KEY, JSON.stringify(updatedDb));
         localStorage.removeItem("campusos_logged_out");
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser));
       }
+
+      setUser(newUser);
       return { error: null };
     }
   };
 
-  const signIn = async (email: string, password: string): Promise<{ error: string | null }> => {
+  const signIn = async (emailOrId: string, passwordInput: string): Promise<{ error: string | null }> => {
+    const cleanId = (emailOrId || "").trim().toLowerCase();
+    const cleanPass = (passwordInput || "").trim();
+
+    if (!cleanId) return { error: "Please enter your email or Student ID." };
+    if (!cleanPass) return { error: "Please enter your password." };
+
     if (isSupabaseConfigured) {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: cleanId,
+        password: cleanPass,
       });
       if (error) return { error: error.message };
       if (typeof window !== "undefined") {
@@ -204,20 +310,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       return { error: null };
     } else {
-      // Local demo mode authentication
-      const demoUser: StudentUser = {
-        id: "cu-usr-892401",
-        email: email || "jordan.patel@cityuni.edu",
-        studentId: "CU-892401",
-        fullName: email.split("@")[0].replace(".", " ").replace(/\b\w/g, (c) => c.toUpperCase()) || "Jordan Patel",
-        batch: "Class of 2026",
-        department: "Computer Science",
-        role: "student",
+      // Local authentication with real password verification
+      const usersDb = loadLocalUserDb();
+
+      const found = usersDb.find(
+        (u) =>
+          u.email.toLowerCase() === cleanId ||
+          u.studentId.toLowerCase() === cleanId
+      );
+
+      if (!found) {
+        return {
+          error: "No account found matching this email or Student ID. Please check your credentials or click a 1-Click Demo Profile below.",
+        };
+      }
+
+      if (found.password && found.password !== cleanPass) {
+        return {
+          error: "Incorrect password for this account. Check demo credentials in README.md or click 1-Click Demo Login.",
+        };
+      }
+
+      const activeUser: StudentUser = {
+        id: found.id,
+        email: found.email,
+        studentId: found.studentId,
+        fullName: found.fullName,
+        batch: found.batch,
+        department: found.department,
+        role: found.role,
+        avatarUrl: found.avatarUrl,
       };
-      setUser(demoUser);
+
+      setUser(activeUser);
       if (typeof window !== "undefined") {
         localStorage.removeItem("campusos_logged_out");
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(demoUser));
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(activeUser));
       }
       return { error: null };
     }
@@ -239,20 +367,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push("/login");
   };
 
-  const quickDemoLogin = (role: "student" | "club_admin" = "student") => {
-    const demoUser: StudentUser = {
-      id: role === "student" ? "cu-usr-892401" : "cu-admin-30129",
-      email: role === "student" ? "jordan.patel@cityuni.edu" : "alex.chen.acm@cityuni.edu",
-      studentId: role === "student" ? "CU-892401" : "CU-301290",
-      fullName: role === "student" ? "Jordan Patel" : "Alex Chen (ACM Lead)",
-      batch: role === "student" ? "Class of 2026" : "Class of 2025",
-      department: "Computer Science",
-      role: role,
+  const quickDemoLogin = (role: "student" | "club_admin" | "admin" = "student") => {
+    let target = PRESET_DEMO_ACCOUNTS.find((u) => u.role === role);
+    if (!target) target = PRESET_DEMO_ACCOUNTS[0];
+
+    const activeUser: StudentUser = {
+      id: target.id,
+      email: target.email,
+      studentId: target.studentId,
+      fullName: target.fullName,
+      batch: target.batch,
+      department: target.department,
+      role: target.role,
+      avatarUrl: target.avatarUrl,
     };
-    setUser(demoUser);
+
+    setUser(activeUser);
     if (typeof window !== "undefined") {
       localStorage.removeItem("campusos_logged_out");
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(demoUser));
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(activeUser));
+    }
+  };
+
+  const getAllUsers = (): RegisteredUserRecord[] => {
+    return loadLocalUserDb();
+  };
+
+  const updateUserRole = (userId: string, newRole: "student" | "club_admin" | "admin") => {
+    const db = loadLocalUserDb();
+    const updated = db.map((u) => (u.id === userId ? { ...u, role: newRole } : u));
+    if (typeof window !== "undefined") {
+      localStorage.setItem(USER_DATABASE_KEY, JSON.stringify(updated));
+    }
+    if (user && user.id === userId) {
+      const updatedCurrent = { ...user, role: newRole };
+      setUser(updatedCurrent);
+      if (typeof window !== "undefined") {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedCurrent));
+      }
     }
   };
 
@@ -266,6 +418,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUp,
         signOut,
         quickDemoLogin,
+        getAllUsers,
+        updateUserRole,
       }}
     >
       {children}
