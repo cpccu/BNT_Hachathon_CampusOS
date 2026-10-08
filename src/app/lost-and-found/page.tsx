@@ -47,9 +47,19 @@ export default function LostAndFoundPage() {
     message: ""
   });
 
-  const filteredLost = lostItems.filter(item => item.itemName.toLowerCase().includes(searchQuery.toLowerCase()) || item.description.toLowerCase().includes(searchQuery.toLowerCase()));
-  const filteredFound = foundItems.filter(item => item.itemName.toLowerCase().includes(searchQuery.toLowerCase()) || item.description.toLowerCase().includes(searchQuery.toLowerCase()));
-  const filteredComplaints = complaints.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.description.toLowerCase().includes(searchQuery.toLowerCase()));
+  const query = searchQuery.toLowerCase().trim();
+  const filteredLost = lostItems.filter(item => 
+    (item?.itemName || "").toLowerCase().includes(query) || 
+    (item?.description || "").toLowerCase().includes(query)
+  );
+  const filteredFound = foundItems.filter(item => 
+    (item?.itemName || "").toLowerCase().includes(query) || 
+    (item?.description || "").toLowerCase().includes(query)
+  );
+  const filteredComplaints = complaints.filter(item => 
+    (item?.title || "").toLowerCase().includes(query) || 
+    (item?.description || "").toLowerCase().includes(query)
+  );
 
   const handleAddSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -193,11 +203,11 @@ export default function LostAndFoundPage() {
                 </div>
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>{new Date(item.date).toLocaleDateString()}</span>
+                  <span>{item.date ? String(item.date).split("T")[0] : "Recently"}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <User className="w-3.5 h-3.5" />
-                  <span>{item.reporterName}</span>
+                  <span>{item.reporterName || "Campus Member"}</span>
                 </div>
               </div>
             </div>
@@ -249,11 +259,11 @@ export default function LostAndFoundPage() {
                 )}
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>{new Date(comp.date).toLocaleDateString()}</span>
+                  <span>{comp.date ? String(comp.date).split("T")[0] : "Recently"}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <User className="w-3.5 h-3.5" />
-                  <span>{comp.reporterName}</span>
+                  <span>{comp.studentId || "Student"}</span>
                 </div>
               </div>
             </div>

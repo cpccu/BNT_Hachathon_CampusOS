@@ -14,6 +14,23 @@ export interface DatabaseProvider {
   getCheckIns(eventId: string): Promise<any[]>;
 }
 
+// Normalizer for lost/found items so UI properties (itemName, contactInfo, reporterName) always exist
+function normalizeLostFound(item: any) {
+  return {
+    id: item.id || `item-${Date.now()}`,
+    type: item.type || "Lost",
+    itemName: item.itemName || item.title || "Unspecified Item",
+    category: item.category || "Other",
+    description: item.description || "",
+    location: item.location || "Campus",
+    date: item.date || new Date().toISOString().split("T")[0],
+    contactInfo: item.contactInfo || item.contact || "Campus Security Desk",
+    status: item.status || "Active",
+    reporterName: item.reporterName || item.reporter_id || "Campus Member",
+    imageUrl: item.imageUrl || item.image_url,
+  };
+}
+
 export const LocalDB: DatabaseProvider = {
   async getLostItems() {
     if (isSupabaseConfigured) {
@@ -23,16 +40,18 @@ export const LocalDB: DatabaseProvider = {
           .select("*")
           .eq("type", "Lost")
           .order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data && data.length > 0) {
+          return data.map(normalizeLostFound);
+        }
       } catch (err) {
         console.warn("Supabase getLostItems fallback to local:", err);
       }
     }
 
-    if (typeof window === "undefined") return MOCK_LOST_AND_FOUND.filter(i => i.type === "Lost");
+    if (typeof window === "undefined") return MOCK_LOST_AND_FOUND.filter(i => i.type === "Lost").map(normalizeLostFound);
     const stored = localStorage.getItem("db_lost_items");
-    if (stored) return JSON.parse(stored);
-    const initial = MOCK_LOST_AND_FOUND.filter(i => i.type === "Lost");
+    if (stored) return JSON.parse(stored).map(normalizeLostFound);
+    const initial = MOCK_LOST_AND_FOUND.filter(i => i.type === "Lost").map(normalizeLostFound);
     localStorage.setItem("db_lost_items", JSON.stringify(initial));
     return initial;
   },
@@ -45,16 +64,18 @@ export const LocalDB: DatabaseProvider = {
           .select("*")
           .eq("type", "Found")
           .order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data && data.length > 0) {
+          return data.map(normalizeLostFound);
+        }
       } catch (err) {
         console.warn("Supabase getFoundItems fallback to local:", err);
       }
     }
 
-    if (typeof window === "undefined") return MOCK_LOST_AND_FOUND.filter(i => i.type === "Found");
+    if (typeof window === "undefined") return MOCK_LOST_AND_FOUND.filter(i => i.type === "Found").map(normalizeLostFound);
     const stored = localStorage.getItem("db_found_items");
-    if (stored) return JSON.parse(stored);
-    const initial = MOCK_LOST_AND_FOUND.filter(i => i.type === "Found");
+    if (stored) return JSON.parse(stored).map(normalizeLostFound);
+    const initial = MOCK_LOST_AND_FOUND.filter(i => i.type === "Found").map(normalizeLostFound);
     localStorage.setItem("db_found_items", JSON.stringify(initial));
     return initial;
   },
@@ -66,7 +87,19 @@ export const LocalDB: DatabaseProvider = {
           .from("complaints")
           .select("*")
           .order("created_at", { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data && data.length > 0) {
+          return data.map((c: any) => ({
+            id: c.id,
+            title: c.title || "Complaint",
+            category: c.category || "Facility",
+            location: c.location || "Campus",
+            date: c.date || new Date().toISOString().split("T")[0],
+            status: c.status || "Pending",
+            priority: c.priority || "Normal",
+            description: c.description || "",
+            studentId: c.student_id || c.studentId || "Student",
+          }));
+        }
       } catch (err) {
         console.warn("Supabase getComplaints fallback to local:", err);
       }
@@ -87,7 +120,6 @@ export const LocalDB: DatabaseProvider = {
           .select("*")
           .order("created_at", { ascending: false });
         if (!error && data && data.length > 0) {
-          // Normalize column names
           return data.map((ev: any) => ({
             ...ev,
             attendeesCount: ev.attendees_count ?? ev.attendeesCount ?? 0,
@@ -107,18 +139,20 @@ export const LocalDB: DatabaseProvider = {
   },
 
   async addLostItem(item) {
+    const normalized = normalizeLostFound(item);
     if (isSupabaseConfigured) {
       try {
         await supabase.from("lost_found_items").insert([{
-          id: item.id || `lost-${Date.now()}`,
-          title: item.title,
-          category: item.category,
-          location: item.location,
-          date: item.date,
-          status: item.status || "Open",
+          id: normalized.id,
+          title: normalized.itemName,
+          category: normalized.category,
+          location: normalized.location,
+          date: normalized.date,
+          status: normalized.status,
           type: "Lost",
-          contact: item.contact,
-          description: item.description,
+          contact: normalized.contactInfo,
+          description: normalized.description,
+          reporter_id: normalized.reporterName,
         }]);
       } catch (err) {
         console.warn("Supabase addLostItem failed, falling back to local:", err);
@@ -126,25 +160,27 @@ export const LocalDB: DatabaseProvider = {
     }
 
     const items = await this.getLostItems();
-    items.unshift(item);
+    items.unshift(normalized);
     if (typeof window !== "undefined") {
       localStorage.setItem("db_lost_items", JSON.stringify(items));
     }
   },
 
   async addFoundItem(item) {
+    const normalized = normalizeLostFound(item);
     if (isSupabaseConfigured) {
       try {
         await supabase.from("lost_found_items").insert([{
-          id: item.id || `found-${Date.now()}`,
-          title: item.title,
-          category: item.category,
-          location: item.location,
-          date: item.date,
-          status: item.status || "Open",
+          id: normalized.id,
+          title: normalized.itemName,
+          category: normalized.category,
+          location: normalized.location,
+          date: normalized.date,
+          status: normalized.status,
           type: "Found",
-          contact: item.contact,
-          description: item.description,
+          contact: normalized.contactInfo,
+          description: normalized.description,
+          reporter_id: normalized.reporterName,
         }]);
       } catch (err) {
         console.warn("Supabase addFoundItem failed, falling back to local:", err);
@@ -152,7 +188,7 @@ export const LocalDB: DatabaseProvider = {
     }
 
     const items = await this.getFoundItems();
-    items.unshift(item);
+    items.unshift(normalized);
     if (typeof window !== "undefined") {
       localStorage.setItem("db_found_items", JSON.stringify(items));
     }
@@ -170,6 +206,7 @@ export const LocalDB: DatabaseProvider = {
           status: complaint.status || "Submitted",
           priority: complaint.priority || "Normal",
           description: complaint.description,
+          student_id: complaint.studentId || "Student",
         }]);
       } catch (err) {
         console.warn("Supabase addComplaint failed, falling back to local:", err);
